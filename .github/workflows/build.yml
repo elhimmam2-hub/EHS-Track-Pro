@@ -19,18 +19,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Find and Build APK with Gradle
+      - name: Build APK Automatically
         run: |
-          # البحث التلقائي عن المجلد الذي يحتوي على ملف gradlew التنفيذي
           GRADLE_FILE=$(find . -name "gradlew" -type f | head -n 1)
           if [ -z "$GRADLE_FILE" ]; then
-            echo "Error: gradlew file not found anywhere in the repository!"
+            echo "Error: gradlew not found!"
             exit 1
           fi
-          
           PROJECT_DIR=$(dirname "$GRADLE_FILE")
-          echo "Found project directory at: $PROJECT_DIR"
-          
+          echo "Found project at: $PROJECT_DIR"
           cd "$PROJECT_DIR"
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon
