@@ -19,23 +19,21 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Grant execute permission for gradlew
+      - name: Find and Build APK with Gradle
         run: |
-          if [ -f "./APP/ehs_android_app/gradlew" ]; then
-            chmod +x ./APP/ehs_android_app/gradlew
-          elif [ -f "./ehs_android_app/gradlew" ]; then
-            chmod +x ./ehs_android_app/gradlew
+          # البحث التلقائي عن المجلد الذي يحتوي على ملف gradlew التنفيذي
+          GRADLE_FILE=$(find . -name "gradlew" -type f | head -n 1)
+          if [ -z "$GRADLE_FILE" ]; then
+            echo "Error: gradlew file not found anywhere in the repository!"
+            exit 1
           fi
-
-      - name: Build APK with Gradle
-        run: |
-          if [ -d "./APP/ehs_android_app" ]; then
-            cd ./APP/ehs_android_app && ./gradlew assembleRelease --no-daemon
-          elif [ -d "./ehs_android_app" ]; then
-            cd ./ehs_android_app && ./gradlew assembleRelease --no-daemon
-          else
-            echo "Gradle path not found" && exit 1
-          fi
+          
+          PROJECT_DIR=$(dirname "$GRADLE_FILE")
+          echo "Found project directory at: $PROJECT_DIR"
+          
+          cd "$PROJECT_DIR"
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
