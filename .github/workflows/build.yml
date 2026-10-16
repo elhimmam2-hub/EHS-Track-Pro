@@ -1,0 +1,44 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: |
+          if [ -f "./APP/ehs_android_app/gradlew" ]; then
+            chmod +x ./APP/ehs_android_app/gradlew
+          elif [ -f "./ehs_android_app/gradlew" ]; then
+            chmod +x ./ehs_android_app/gradlew
+          fi
+
+      - name: Build APK with Gradle
+        run: |
+          if [ -d "./APP/ehs_android_app" ]; then
+            cd ./APP/ehs_android_app && ./gradlew assembleRelease --no-daemon
+          elif [ -d "./ehs_android_app" ]; then
+            cd ./ehs_android_app && ./gradlew assembleRelease --no-daemon
+          else
+            echo "Gradle path not found" && exit 1
+          fi
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: '**/build/outputs/apk/release/*.apk'
