@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_eco_green">#0F5238</color>
+    <color name="primary_light">#2D6A4F</color>
+    <color name="secondary_slate_blue">#1D3557</color>
+    <color name="background_light">#F8F9FA</color>
+    <color name="background_dark">#121816</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>

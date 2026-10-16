@@ -1,0 +1,1523 @@
+﻿<!DOCTYPE html>
+<html dir="rtl" lang="ar" class="light">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+  <title>EHS Track Pro â€” Ù†Ø¸Ø§Ù… Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø³Ù„Ø§Ù…Ø© ÙˆØ§Ù„ØµØ­Ø© Ø§Ù„Ù…Ù‡Ù†ÙŠØ© ÙˆØ§Ù„Ø¨ÙŠØ¦Ø©</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Readex+Pro:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  
+  <!-- Tailwind CSS & PDF Generation Engines -->
+  <script src="tailwindcss.js"></script>
+  <script src="jspdf.umd.min.js"></script>
+  <script src="html2canvas.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0f5238',
+            'primary-container': '#2d6a4f',
+            'primary-light': '#40916c',
+            'primary-fixed': '#b1f0ce',
+            'on-primary': '#ffffff',
+            'on-primary-container': '#a8e7c5',
+            'on-primary-fixed': '#002114',
+            secondary: '#1d3557',
+            'secondary-light': '#457b9d',
+            'secondary-container': '#dbe4ed',
+            'on-secondary': '#ffffff',
+            tertiary: '#064c6c',
+            'tertiary-container': '#2b6485',
+            'tertiary-fixed': '#c7e7ff',
+            'on-tertiary': '#ffffff',
+            'on-tertiary-fixed': '#001e2e',
+            surface: '#f6faff',
+            'surface-dark': '#121816',
+            'surface-card-dark': '#1c2522',
+            'surface-card': '#ffffff',
+            'surface-container-low': '#ecf5fe',
+            'surface-container': '#e6eff8',
+            'surface-container-high': '#e0e9f2',
+            'on-surface': '#141d23',
+            'on-surface-variant': '#404943',
+            'outline-custom': '#707973',
+            'outline-light': '#bfc9c1',
+            warning: '#d97706',
+            'warning-container': '#fef3c7',
+            danger: '#e76f51',
+            'danger-container': '#fde8e4',
+            success: '#2d6a4f',
+            'success-container': '#e8f5e9'
+          },
+          fontFamily: {
+            ar: ['Readex Pro', 'Tajawal', 'sans-serif'],
+            en: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Readex Pro', 'Tajawal', sans-serif;
+      overscroll-behavior: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    html[dir="ltr"] body {
+      font-family: 'Inter', sans-serif;
+    }
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom, 16px); }
+    .pt-safe { padding-top: env(safe-area-inset-top, 16px); }
+    ::-webkit-scrollbar { display: none; }
+    
+    /* Smooth transitions for tabs and themes */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.22s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Touch buttons feel */
+    .touch-btn:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+
+<body class="bg-surface dark:bg-surface-dark text-on-surface dark:text-gray-100 min-h-screen flex flex-col antialiased transition-colors duration-300">
+
+  <!-- TOP APP HEADER -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-white/90 dark:bg-[#151c1a]/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm pt-safe">
+    <div class="h-16 px-4 max-w-7xl mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Brand & Status -->
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-primary-light flex items-center justify-center text-white shadow-sm flex-shrink-0">
+          <span class="material-symbols-outlined text-[24px]">verified_user</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="font-bold text-base tracking-tight text-on-surface dark:text-white truncate" id="brand-title">EHS Track Pro</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-bold tracking-wider hidden sm:inline">v2.4</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" id="sync-dot"></span>
+            <span class="text-xs text-primary dark:text-emerald-400 font-medium truncate" id="sync-status-text">Ù…ØªØµÙ„ â€¢ ØªÙ…Øª Ø§Ù„Ù…Ø²Ø§Ù…Ù†Ø©</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Controls: Language, Theme, Profile -->
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <!-- Language Switcher -->
+        <div class="relative inline-flex bg-gray-100 dark:bg-gray-800 p-0.5 rounded-full text-xs font-semibold">
+          <button onclick="setLanguage('ar')" id="lang-ar-btn" class="px-2.5 py-1 rounded-full transition-all bg-white dark:bg-gray-700 text-primary dark:text-emerald-400 shadow-xs">Ø¹Ø±Ø¨ÙŠ</button>
+          <button onclick="setLanguage('en')" id="lang-en-btn" class="px-2.5 py-1 rounded-full transition-all text-gray-500 dark:text-gray-400">EN</button>
+          <button onclick="setLanguage('fr')" id="lang-fr-btn" class="px-2.5 py-1 rounded-full transition-all text-gray-500 dark:text-gray-400">FR</button>
+        </div>
+
+        <!-- Dark / Eye-Comfort Mode Toggle -->
+        <button onclick="toggleVisualComfortMode()" aria-label="Toggle Theme" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-yellow-400 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          <span class="material-symbols-outlined text-[19px]" id="theme-icon">dark_mode</span>
+        </button>
+
+        <!-- Role Badge -->
+        <div class="hidden md:flex items-center gap-2 pl-2 pr-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700">
+          <div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold">M</div>
+          <div class="text-left">
+            <div class="text-[11px] font-bold text-gray-800 dark:text-gray-200" id="user-role-label">Ù…ÙØªØ´ Ø£ÙˆÙ„ Ø³Ù„Ø§Ù…Ø©</div>
+            <div class="text-[9px] text-gray-500" id="user-role-sub">Lead Auditor</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN SCROLLABLE APP CONTAINER -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-4 pt-20 pb-28">
+
+    <!-- ============================================================= -->
+    <!-- TAB 1: EHS DASHBOARD & REAL-TIME KPIS -->
+    <!-- ============================================================= -->
+    <section id="tab-dashboard" class="tab-content active space-y-4">
+      
+      <!-- Welcome & Shift Progress -->
+      <div class="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-primary/10 dark:bg-emerald-950/40 text-primary dark:text-emerald-400 flex items-center justify-center text-xl font-bold flex-shrink-0">
+              <span class="material-symbols-outlined text-2xl">safety_check</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs text-gray-500 dark:text-gray-400" id="greeting-text">Ù…Ø±Ø­Ø¨Ø§Ù‹ Ø¨Ø¹ÙˆØ¯ØªÙƒ</span>
+                <span class="material-symbols-outlined text-sm text-primary dark:text-emerald-400" style="font-variation-settings: 'FILL' 1;">verified</span>
+              </div>
+              <h1 class="text-lg font-bold text-gray-900 dark:text-white" id="inspector-name">Ù…. Ø³Ø§Ø±Ø© Ø§Ù„Ù…Ù†ØµÙˆØ± (Lead EHS Auditor)</h1>
+              <p class="text-xs text-secondary-light dark:text-gray-400" id="site-label">Ù…ÙˆÙ‚Ø¹ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹: Ø§Ù„Ù…Ø¬Ù…Ø¹ Ø§Ù„ØµÙ†Ø§Ø¹ÙŠ - Ø§Ù„Ù…Ù†Ø·Ù‚Ø© Ø§Ù„ØºØ±Ø¨ÙŠØ©</p>
+            </div>
+          </div>
+          <button onclick="triggerQuickSync()" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-xs font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-1 hover:bg-gray-200 transition-colors">
+            <span class="material-symbols-outlined text-sm">sync</span>
+            <span id="sync-btn-text">Ù…Ø²Ø§Ù…Ù†Ø© Ø§Ù„Ø¢Ù†</span>
+          </button>
+        </div>
+
+        <!-- Shift Progress Bar -->
+        <div class="mt-4 pt-3 border-t border-gray-100 dark:border-gray-800/60">
+          <div class="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-1.5">
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm text-primary dark:text-emerald-400">task_alt</span>
+              <span id="shift-progress-label">Ø§ÙƒØªÙ…Ø§Ù„ Ø¹Ù…Ù„ÙŠØ§Øª Ø§Ù„ØªØ¯Ù‚ÙŠÙ‚ Ø§Ù„Ù…ÙŠØ¯Ø§Ù†ÙŠ Ø§Ù„Ù…Ø¬Ø¯ÙˆÙ„Ø©</span>
+            </span>
+            <span class="font-bold text-primary dark:text-emerald-400">80%</span>
+          </div>
+          <div class="w-full bg-gray-100 dark:bg-gray-800 h-2.5 rounded-full overflow-hidden">
+            <div class="bg-gradient-to-r from-primary to-primary-light h-full rounded-full transition-all duration-500" style="width: 80%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Offline Safeguard Card -->
+      <div class="bg-gradient-to-r from-primary-container to-primary text-white rounded-2xl p-4 shadow-sm flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">offline_bolt</span>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold" id="offline-mode-title">Ø§Ù„ÙˆØ¶Ø¹ Ø§Ù„Ù…ÙŠØ¯Ø§Ù†ÙŠ Ø§Ù„Ø°ÙƒÙŠ (Offline-First)</h3>
+            <p class="text-xs text-emerald-100" id="offline-mode-sub">ÙŠÙ…ÙƒÙ†Ùƒ ÙØ­Øµ Ø§Ù„Ù…Ø¹Ø¯Ø§Øª ÙˆØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¨Ù„Ø§ØºØ§Øª Ø¨Ø¯ÙˆÙ† Ø¥Ù†ØªØ±Ù†ØªØŒ ÙˆØ³ØªÙØ±ÙØ¹ ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹ Ø¹Ù†Ø¯ Ø§Ù„Ø§ØªØµØ§Ù„.</p>
+          </div>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <span class="text-xs px-2.5 py-1 rounded-full bg-white/20 font-semibold" id="pending-records-count">3 Ù…Ø¹Ù„Ù‚</span>
+        </div>
+      </div>
+
+      <!-- Real-Time EHS KPIs (2x2 Grid) -->
+      <div>
+        <div class="flex items-center justify-between mb-2 px-1">
+          <h2 class="text-sm font-bold text-gray-800 dark:text-gray-200" id="kpi-section-title">Ù…Ø¤Ø´Ø±Ø§Øª Ø§Ù„Ø³Ù„Ø§Ù…Ø© ÙˆØ§Ù„Ø£Ø¯Ø§Ø¡ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©</h2>
+          <span class="text-xs text-gray-500" id="kpi-quarter">Ø§Ù„Ø±Ø¨Ø¹ Ø§Ù„Ø£Ø®ÙŠØ± 2026</span>
+        </div>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          
+          <!-- KPI 1: LTIFR -->
+          <div class="bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-primary dark:text-emerald-400 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">trending_down</span>
+              </span>
+              <span class="text-[11px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">-14%</span>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-gray-900 dark:text-white" id="ltifr-val">0.18</div>
+              <div class="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate" id="kpi-ltifr-title">Ù…Ø¹Ø¯Ù„ ØªÙƒØ±Ø§Ø± Ø§Ù„Ø¥ØµØ§Ø¨Ø§Øª</div>
+              <div class="text-[10px] text-gray-500 truncate">LTIFR (Ø§Ù„Ù‡Ø¯Ù: &lt; 0.50)</div>
+            </div>
+          </div>
+
+          <!-- KPI 2: Compliance Score -->
+          <div class="bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-secondary-light flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">gavel</span>
+              </span>
+              <span class="text-[11px] font-bold px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300" id="badge-compliance">Ù…Ù…ØªØ§Ø²</span>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-primary dark:text-emerald-400">96.4%</div>
+              <div class="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate" id="kpi-audit-title">Ù†Ø³Ø¨Ø© Ø§Ù„Ø§Ù…ØªØ«Ø§Ù„ Ø§Ù„Ø¨ÙŠØ¦ÙŠ</div>
+              <div class="text-[10px] text-gray-500 truncate">ISO 45001 &amp; 14001</div>
+            </div>
+          </div>
+
+          <!-- KPI 3: Safe Man Hours -->
+          <div class="bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="w-7 h-7 rounded-lg bg-amber-50 dark:bg-amber-950/50 text-amber-600 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">timer</span>
+              </span>
+              <span class="text-[11px] font-bold px-1.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300">+250k</span>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-gray-900 dark:text-white">1.84M</div>
+              <div class="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate" id="kpi-hours-title">Ø³Ø§Ø¹Ø§Øª Ø¹Ù…Ù„ Ø¢Ù…Ù†Ø©</div>
+              <div class="text-[10px] text-gray-500 truncate">Ø¨Ø¯ÙˆÙ† Ø­ÙˆØ§Ø¯Ø« Ù‡Ø§Ø¯Ø±Ø© Ù„Ù„ÙˆÙ‚Øª</div>
+            </div>
+          </div>
+
+          <!-- KPI 4: CAPA Closure Velocity -->
+          <div class="bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-950/50 text-purple-600 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">speed</span>
+              </span>
+              <span class="text-[11px] font-bold px-1.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300">2.1 ÙŠÙˆÙ…</span>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-gray-900 dark:text-white">92.8%</div>
+              <div class="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate" id="kpi-capa-title">Ø³Ø±Ø¹Ø© Ø¥ØºÙ„Ø§Ù‚ Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡Ø§Øª</div>
+              <div class="text-[10px] text-gray-500 truncate">Ø¶Ù…Ù† Ø§Ù„Ù…Ø¯Ø© Ø§Ù„Ù…Ø­Ø¯Ø¯Ø©</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+        <button onclick="switchTab('incident')" class="p-3 bg-surface-card dark:bg-surface-card-dark rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs flex items-center gap-2.5 hover:bg-emerald-50/50 dark:hover:bg-gray-800 transition-colors text-right touch-btn">
+          <div class="w-9 h-9 rounded-lg bg-danger/10 text-danger flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">warning</span>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-gray-900 dark:text-white truncate" id="action-report-incident">Ø¥Ø¨Ù„Ø§Øº Ø¹Ù† Ø­Ø§Ø¯Ø«</div>
+            <div class="text-[10px] text-gray-500 truncate">Near-miss &amp; Injury</div>
+          </div>
+        </button>
+
+        <button onclick="switchTab('forms')" class="p-3 bg-surface-card dark:bg-surface-card-dark rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs flex items-center gap-2.5 hover:bg-emerald-50/50 dark:hover:bg-gray-800 transition-colors text-right touch-btn">
+          <div class="w-9 h-9 rounded-lg bg-primary/10 text-primary dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">local_fire_department</span>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-gray-900 dark:text-white truncate" id="action-issue-ptw">Ø¥ØµØ¯Ø§Ø± ØªØµØ±ÙŠØ­ PTW</div>
+            <div class="text-[10px] text-gray-500 truncate">Permit to Work</div>
+          </div>
+        </button>
+
+        <button onclick="switchTab('audit')" class="p-3 bg-surface-card dark:bg-surface-card-dark rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs flex items-center gap-2.5 hover:bg-emerald-50/50 dark:hover:bg-gray-800 transition-colors text-right touch-btn">
+          <div class="w-9 h-9 rounded-lg bg-secondary-light/10 text-secondary-light flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">fact_check</span>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-gray-900 dark:text-white truncate" id="action-start-audit">Ø¬ÙˆÙ„Ø© ØªÙØªÙŠØ´ÙŠØ©</div>
+            <div class="text-[10px] text-gray-500 truncate">Audit Checklist</div>
+          </div>
+        </button>
+
+        <button onclick="switchTab('capa')" class="p-3 bg-surface-card dark:bg-surface-card-dark rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs flex items-center gap-2.5 hover:bg-emerald-50/50 dark:hover:bg-gray-800 transition-colors text-right touch-btn">
+          <div class="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">assignment_turned_in</span>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-gray-900 dark:text-white truncate" id="action-view-capa">Ù…ØªØ§Ø¨Ø¹Ø© CAPA</div>
+            <div class="text-[10px] text-gray-500 truncate">Corrective Actions</div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Recent Incidents & Activity Feed -->
+      <div class="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-4 border border-gray-100 dark:border-gray-800 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-bold text-gray-900 dark:text-white" id="recent-logs-title">Ø£Ø­Ø¯Ø« Ø§Ù„Ø£Ù†Ø´Ø·Ø© ÙˆØ§Ù„Ø¨Ù„Ø§ØºØ§Øª Ø§Ù„Ù…ÙŠØ¯Ø§Ù†ÙŠØ©</h3>
+          <span class="text-xs text-primary dark:text-emerald-400 font-semibold cursor-pointer" onclick="switchTab('incident')" id="see-all-logs">Ø¹Ø±Ø¶ Ø§Ù„ÙƒÙ„</span>
+        </div>
+        <div class="space-y-2.5" id="recent-activity-list">
+          <!-- Dynamically populated or default items -->
+          <div class="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">near_me</span>
+              </span>
+              <div>
+                <div class="text-xs font-bold text-gray-800 dark:text-gray-200">Ø­Ø§Ø¯Ø« ÙˆØ´ÙŠÙƒ: Ø§Ù†Ø²Ù„Ø§Ù‚ Ø±Ø§ÙØ¹Ø© Ø´ÙˆÙƒÙŠØ©</div>
+                <div class="text-[11px] text-gray-500">Ø§Ù„Ù…Ø³ØªÙˆØ¯Ø¹ Ø§Ù„Ø´Ù…Ø§Ù„ÙŠ â€¢ ØªÙ… Ø§ØªØ®Ø§Ø° ØªØ¯Ø¨ÙŠØ± ÙˆÙ‚Ø§Ø¦ÙŠ ÙÙˆØ±ÙŠ</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-semibold text-gray-500">Ù…Ù†Ø° 25 Ø¯Ù‚ÙŠÙ‚Ø©</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-primary dark:text-emerald-400 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">task_alt</span>
+              </span>
+              <div>
+                <div class="text-xs font-bold text-gray-800 dark:text-gray-200">Ø§Ø¹ØªÙ…Ø§Ø¯ ØªØµØ±ÙŠØ­ Ø¹Ù…Ù„ Ø¹Ù„Ù‰ Ø§Ø±ØªÙØ§Ø¹Ø§Øª #PTW-8824</div>
+                <div class="text-[11px] text-gray-500">Ø¨Ø±Ø¬ Ø§Ù„ØªØ¨Ø±ÙŠØ¯ 2 â€¢ ØªÙˆÙ‚ÙŠØ¹ Ù…Ø¹ØªÙ…Ø¯ Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠØ§Ù‹</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-semibold text-gray-500">Ù…Ù†Ø° Ø³Ø§Ø¹Ø©</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 2: INCIDENT & HAZARD TRACKING (Real-Time + Annotator) -->
+    <!-- ============================================================= -->
+    <section id="tab-incident" class="tab-content space-y-4">
+      
+      <!-- Stepper Header -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-danger animate-ping"></span>
+            <h2 class="text-base font-bold text-gray-900 dark:text-white" id="new-incident-title">ØªØ³Ø¬ÙŠÙ„ Ø¨Ù„Ø§Øº Ø­Ø§Ø¯Ø« Ø£Ùˆ Ø®Ø·Ø± Ù…Ù‡Ù†ÙŠ Ø¬Ø¯ÙŠØ¯</h2>
+          </div>
+          <span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-bold" id="incident-step-badge">Ù…Ø¨Ø§Ø´Ø± â€¢ Ø­ÙØ¸ Ù…Ø­Ù„ÙŠ</span>
+        </div>
+        <p class="text-xs text-gray-500 dark:text-gray-400" id="incident-stepper-sub">Ù‚Ù… Ø¨ØªØ³Ø¬ÙŠÙ„ ØªÙØ§ØµÙŠÙ„ Ø§Ù„ÙˆØ§Ù‚Ø¹Ø©ØŒ ØªØ­Ø¯ÙŠØ¯ Ø¯Ø±Ø¬Ø© Ø§Ù„Ø®Ø·ÙˆØ±Ø©ØŒ ÙˆØ¥Ø±ÙØ§Ù‚ ØµÙˆØ± Ù…Ø¹ Ø§Ù„Ø±Ø³Ù… ÙˆØ§Ù„ØªØ­Ø¯ÙŠØ¯ Ø¹Ù„Ù‰ Ù…ÙˆØ§Ø¶Ø¹ Ø§Ù„Ø®Ø·Ø±.</p>
+      </div>
+
+      <!-- Incident Form Fields -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-4">
+        
+        <!-- Incident Classification Selector -->
+        <div>
+          <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2" id="lbl-incident-type">ØªØµÙ†ÙŠÙ Ø§Ù„ÙˆØ§Ù‚Ø¹Ø© (Severity Category)</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="incident-type-selector">
+            <button type="button" onclick="selectIncidentType('near_miss', this)" class="inc-type-btn p-3 rounded-xl border-2 border-primary bg-primary/5 text-primary dark:text-emerald-400 font-semibold text-xs flex flex-col items-center text-center gap-1.5 transition-all">
+              <span class="material-symbols-outlined text-xl">nearby_error</span>
+              <span id="type-near-miss">Ø´Ø¨Ù‡ Ø­Ø§Ø¯Ø« (Near Miss)</span>
+            </button>
+            <button type="button" onclick="selectIncidentType('injury', this)" class="inc-type-btn p-3 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-xs flex flex-col items-center text-center gap-1.5 hover:border-gray-400 transition-all">
+              <span class="material-symbols-outlined text-xl text-danger">personal_injury</span>
+              <span id="type-injury">Ø¥ØµØ§Ø¨Ø© Ø¹Ù…Ù„ (Injury)</span>
+            </button>
+            <button type="button" onclick="selectIncidentType('environmental', this)" class="inc-type-btn p-3 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-xs flex flex-col items-center text-center gap-1.5 hover:border-gray-400 transition-all">
+              <span class="material-symbols-outlined text-xl text-emerald-600">nature</span>
+              <span id="type-env">Ø­Ø§Ø¯Ø« Ø¨ÙŠØ¦ÙŠ (Spill/Hazard)</span>
+            </button>
+            <button type="button" onclick="selectIncidentType('property', this)" class="inc-type-btn p-3 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-xs flex flex-col items-center text-center gap-1.5 hover:border-gray-400 transition-all">
+              <span class="material-symbols-outlined text-xl text-amber-600">damage</span>
+              <span id="type-property">Ø£Ø¶Ø±Ø§Ø± Ø¨Ø§Ù„Ù…Ù…ØªÙ„ÙƒØ§Øª</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Title & Location -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-inc-title">Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ø¨Ù„Ø§Øº</label>
+            <input type="text" id="inc-title-input" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white focus:outline-primary" placeholder="Ù…Ø«Ø§Ù„: ØªØ³Ø±Ø¨ Ø²ÙŠÙˆØª Ù‡ÙŠØ¯Ø±ÙˆÙ„ÙŠÙƒÙŠØ© Ù‚Ø±Ø¨ Ø®Ø· Ø§Ù„Ø¥Ù†ØªØ§Ø¬ 3" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-inc-location">Ù…ÙˆÙ‚Ø¹ Ø§Ù„ÙˆØ§Ù‚Ø¹Ø© Ø§Ù„Ø¯Ù‚ÙŠÙ‚ / Ø§Ù„Ø¥Ø­Ø¯Ø§Ø«ÙŠØ§Øª</label>
+            <div class="relative">
+              <input type="text" id="inc-location-input" class="w-full px-3 py-2 pl-9 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white focus:outline-primary" placeholder="Ø§Ù„Ù…ØµÙ†Ø¹ 1 - Ø§Ù„Ø·Ø§Ø¨Ù‚ Ø§Ù„Ø³ÙÙ„ÙŠ" />
+              <button type="button" onclick="getDeviceLocation()" title="ØªØ­Ø¯ÙŠØ¯ Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø¹Ø¨Ø± GPS" class="absolute left-2 top-2 text-gray-500 hover:text-primary">
+                <span class="material-symbols-outlined text-lg">my_location</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-inc-desc">Ø§Ù„ÙˆØµÙ Ø§Ù„ØªÙØµÙŠÙ„ÙŠ ÙˆØ§Ù„Ø¸Ø±ÙˆÙ Ø§Ù„Ù…Ø­ÙŠØ·Ø©</label>
+          <textarea id="inc-desc-input" rows="3" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white focus:outline-primary" placeholder="Ø§ÙƒØªØ¨ ØªÙØ§ØµÙŠÙ„ Ù…Ø§ Ø­Ø¯Ø« Ø¨Ø¯Ù‚Ø©ØŒ Ø§Ù„Ø£Ø´Ø®Ø§Øµ Ø§Ù„Ù…Ø¹Ù†ÙŠÙŠÙ†ØŒ ÙˆØ§Ù„ØªØ¯Ø§Ø¨ÙŠØ± Ø§Ù„Ø¹Ø§Ø¬Ù„Ø© Ø§Ù„Ù…ØªØ®Ø°Ø©..."></textarea>
+        </div>
+
+        <!-- Image Hazard Annotator Canvas Component -->
+        <div class="p-3 bg-gray-50 dark:bg-gray-800/60 rounded-xl border border-gray-200 dark:border-gray-700 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-gray-800 dark:text-gray-200 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-primary dark:text-emerald-400">draw</span>
+              <span id="annotator-title">ØªØ­Ø¯ÙŠØ¯ Ø§Ù„Ø®Ø·Ø± Ø¹Ù„Ù‰ Ø§Ù„ØµÙˆØ±Ø© (Interactive Image Annotation)</span>
+            </span>
+            <div class="flex items-center gap-2">
+              <input type="file" id="photo-upload-input" accept="image/*" class="hidden" onchange="handleImageUpload(event)" />
+              <button type="button" onclick="document.getElementById('photo-upload-input').click()" class="px-2.5 py-1 rounded-lg bg-gray-200 dark:bg-gray-700 text-[11px] font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-1 hover:bg-gray-300">
+                <span class="material-symbols-outlined text-sm">photo_camera</span>
+                <span id="btn-upload-photo">Ø±ÙØ¹ / Ø§Ù„ØªÙ‚Ø§Ø· ØµÙˆØ±Ø©</span>
+              </button>
+              <button type="button" onclick="clearAnnotationCanvas()" class="px-2.5 py-1 rounded-lg bg-red-100 dark:bg-red-950/60 text-[11px] font-semibold text-red-700 dark:text-red-400 flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">delete</span>
+                <span id="btn-clear-canvas">Ù…Ø³Ø­ Ø§Ù„Ø±Ø³Ù…</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="text-[11px] text-gray-500" id="canvas-hint">Ø§Ø±Ø³Ù… Ø¨Ø¥ØµØ¨Ø¹Ùƒ Ø£Ùˆ Ø¨Ø§Ù„ÙØ£Ø±Ø© Ù…Ø¨Ø§Ø´Ø±Ø© Ø¹Ù„Ù‰ Ø§Ù„ØµÙˆØ±Ø© Ù„ØªØ­Ø¯ÙŠØ¯ Ù…ÙˆÙ‚Ø¹ Ø§Ù„Ø®Ø·Ø± (Ù„ÙˆÙ† Ø£Ø­Ù…Ø±/Ø¨Ø±ØªÙ‚Ø§Ù„ÙŠ):</div>
+          
+          <!-- Canvas drawing area -->
+          <div class="relative w-full rounded-xl overflow-hidden border border-gray-300 dark:border-gray-600 bg-gray-900 flex items-center justify-center min-h-[220px]">
+            <canvas id="hazardCanvas" width="600" height="300" class="w-full h-auto cursor-crosshair touch-none"></canvas>
+            <div id="canvas-empty-state" class="absolute pointer-events-none flex flex-col items-center text-gray-400">
+              <span class="material-symbols-outlined text-4xl mb-1 opacity-60">add_photo_alternate</span>
+              <span class="text-xs">Ø§Ù†Ù‚Ø± Ø¹Ù„Ù‰ "Ø±ÙØ¹ ØµÙˆØ±Ø©" Ø£Ùˆ Ø§Ø±Ø³Ù… Ù…Ø¨Ø§Ø´Ø±Ø© Ù‡Ù†Ø§ Ù„Ù„ØªÙˆØ¶ÙŠØ­</span>
+            </div>
+          </div>
+
+          <!-- Annotation color options -->
+          <div class="flex items-center justify-between text-xs pt-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] text-gray-600 dark:text-gray-400 font-semibold" id="lbl-pen-color">Ù„ÙˆÙ† Ø§Ù„ØªØ­Ø¯ÙŠØ¯:</span>
+              <button type="button" onclick="setPenColor('#e76f51')" class="w-5 h-5 rounded-full bg-danger border-2 border-white ring-1 ring-gray-400" title="Ø®Ø·Ø± Ø¬Ø³ÙŠÙ…"></button>
+              <button type="button" onclick="setPenColor('#d97706')" class="w-5 h-5 rounded-full bg-warning border-2 border-white ring-1 ring-gray-400" title="ØªØ­Ø°ÙŠØ±"></button>
+              <button type="button" onclick="setPenColor('#2d6a4f')" class="w-5 h-5 rounded-full bg-primary border-2 border-white ring-1 ring-gray-400" title="Ø¥Ø¬Ø±Ø§Ø¡ Ø¢Ù…Ù†"></button>
+            </div>
+            <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">Ø³ÙŠØªÙ… ØªØ¶Ù…ÙŠÙ† Ø§Ù„ØµÙˆØ±Ø© Ø§Ù„Ù…Ø­Ø¯Ø¯Ø© ÙÙŠ ØªÙ‚Ø±ÙŠØ± PDF</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="button" onclick="submitNewIncident()" class="w-full py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-sm flex items-center justify-center gap-2 hover:bg-primary-container active:scale-[0.99] transition-all">
+          <span class="material-symbols-outlined text-lg">send</span>
+          <span id="btn-submit-incident">ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¨Ù„Ø§Øº ÙˆØ¥Ø´Ø¹Ø§Ø± ÙØ±ÙŠÙ‚ Ø§Ù„Ø³Ù„Ø§Ù…Ø© ÙÙˆØ±Ø§Ù‹</span>
+        </button>
+
+      </div>
+
+      <!-- Logged Incidents List -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+        <h3 class="text-sm font-bold text-gray-900 dark:text-white mb-3" id="saved-incidents-title">Ø³Ø¬Ù„ Ø§Ù„Ø­ÙˆØ§Ø¯Ø« Ø§Ù„Ù…Ø³Ø¬Ù„Ø© Ù…Ø­Ù„ÙŠØ§Ù‹ ÙˆØ¹Ù„Ù‰ Ø§Ù„Ø³Ø­Ø§Ø¨Ø©</h3>
+        <div class="space-y-2.5" id="incidents-history-list">
+          <!-- Dynamic -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 3: CAPA MANAGEMENT (Corrective & Preventive Actions) -->
+    <!-- ============================================================= -->
+    <section id="tab-capa" class="tab-content space-y-4">
+      
+      <!-- CAPA Banner & Stats -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+              <span class="text-xs font-semibold text-secondary-light dark:text-emerald-400" id="capa-sub-title">Ù†Ø¸Ø§Ù… Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡Ø§Øª Ø§Ù„ØªØµØ­ÙŠØ­ÙŠØ© â€¢ CAPA Workflow</span>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900 dark:text-white mt-0.5" id="capa-heading">Ù…ØªØ§Ø¨Ø¹Ø© Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡Ø§Øª Ø§Ù„ØªØµØ­ÙŠØ­ÙŠØ© ÙˆØ§Ù„ÙˆÙ‚Ø§Ø¦ÙŠØ©</h2>
+          </div>
+          <button onclick="exportCAPAToPDF()" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-xs font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-1.5 transition-colors">
+            <span class="material-symbols-outlined text-base text-red-500">picture_as_pdf</span>
+            <span id="capa-pdf-export-btn">ØªØµØ¯ÙŠØ± ØªÙ‚Ø±ÙŠØ± CAPA</span>
+          </button>
+        </div>
+
+        <!-- Metric Ribbon -->
+        <div class="grid grid-cols-4 gap-2 pt-1 text-center">
+          <div class="p-2 rounded-xl bg-gray-50 dark:bg-gray-800">
+            <div class="text-lg font-bold text-gray-900 dark:text-white" id="capa-count-total">6</div>
+            <div class="text-[11px] text-gray-500" id="capa-lbl-total">Ø§Ù„Ø¥Ø¬Ù…Ø§Ù„ÙŠ</div>
+          </div>
+          <div class="p-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300">
+            <div class="text-lg font-bold" id="capa-count-progress">2</div>
+            <div class="text-[11px]" id="capa-lbl-progress">Ù‚ÙŠØ¯ Ø§Ù„Ù…ØªØ§Ø¨Ø¹Ø©</div>
+          </div>
+          <div class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-primary dark:text-emerald-400">
+            <div class="text-lg font-bold" id="capa-count-closed">3</div>
+            <div class="text-[11px]" id="capa-lbl-closed">Ù…ÙƒØªÙ…Ù„Ø© ÙˆÙ…ØºÙ„Ù‚Ø©</div>
+          </div>
+          <div class="p-2 rounded-xl bg-red-50 dark:bg-red-950/40 text-danger">
+            <div class="text-lg font-bold" id="capa-count-overdue">1</div>
+            <div class="text-[11px]" id="capa-lbl-overdue">Ù…ØªØ£Ø®Ø±Ø©</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Add CAPA Trigger -->
+      <div class="flex items-center gap-2">
+        <button onclick="openNewCAPAModal()" class="flex-1 py-3 px-4 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-base">add_task</span>
+          <span id="btn-add-capa">Ø¥Ø¶Ø§ÙØ© Ø¥Ø¬Ø±Ø§Ø¡ ØªØµØ­ÙŠØ­ÙŠ Ø¬Ø¯ÙŠØ¯ (+ New Action)</span>
+        </button>
+      </div>
+
+      <!-- CAPA Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1" id="capa-filter-tabs">
+        <button onclick="filterCAPAList('all', this)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-primary text-white shadow-xs">Ø§Ù„ÙƒÙ„ (6)</button>
+        <button onclick="filterCAPAList('progress', this)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200">Ù‚ÙŠØ¯ Ø§Ù„ØªÙ†ÙÙŠØ° (2)</button>
+        <button onclick="filterCAPAList('closed', this)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200">Ø§Ù„Ù…ÙƒØªÙ…Ù„Ø© (3)</button>
+        <button onclick="filterCAPAList('overdue', this)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200">Ø§Ù„Ù…ØªØ£Ø®Ø±Ø© (1)</button>
+      </div>
+
+      <!-- CAPA Action Items Container -->
+      <div class="space-y-3" id="capa-items-container">
+        <!-- Dynamically rendered -->
+      </div>
+
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 4: AUDITS & FIELD INSPECTIONS -->
+    <!-- ============================================================= -->
+    <section id="tab-audit" class="tab-content space-y-4">
+      
+      <!-- Inspection Header Card -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-3">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="flex items-center gap-1.5 text-primary dark:text-emerald-400 text-xs font-semibold">
+              <span class="material-symbols-outlined text-base">fact_check</span>
+              <span id="audit-category-tag">ØªØ¯Ù‚ÙŠÙ‚ Ø§Ù„Ø§Ù…ØªØ«Ø§Ù„ Ø§Ù„Ø¯ÙˆØ±ÙŠ Ù„Ù„Ù…ÙˆÙ‚Ø¹ (ISO 45001 / ISO 14001)</span>
+            </div>
+            <h2 class="text-base font-bold text-gray-900 dark:text-white mt-1" id="audit-title">Ø¬ÙˆÙ„Ø© ØªÙØªÙŠØ´ Ø§Ù„Ø³Ù„Ø§Ù…Ø© Ø§Ù„Ø¹Ø§Ù…Ø© - Ø§Ù„ÙˆØ±Ø´Ø© Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©</h2>
+            <p class="text-xs text-gray-500">Ø±Ù‚Ù… Ø§Ù„ÙØ­Øµ: <span class="font-mono font-bold text-primary dark:text-emerald-400">#INS-2026-904</span></p>
+          </div>
+          <span class="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-primary dark:text-emerald-300 text-xs font-bold">Ù†Ø´Ø· Ø§Ù„Ø¢Ù†</span>
+        </div>
+
+        <!-- Checklist Overall Progress -->
+        <div class="pt-2 border-t border-gray-100 dark:border-gray-800">
+          <div class="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-1">
+            <span id="audit-progress-lbl">Ø§ÙƒØªÙ…Ø§Ù„ Ø¨Ù†ÙˆØ¯ Ø§Ù„ØªØ¯Ù‚ÙŠÙ‚</span>
+            <span class="font-bold text-primary dark:text-emerald-400" id="audit-percentage">75%</span>
+          </div>
+          <div class="w-full bg-gray-100 dark:bg-gray-800 h-2 rounded-full overflow-hidden">
+            <div id="audit-progress-bar" class="bg-primary h-full rounded-full transition-all duration-300" style="width: 75%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Checklist Items -->
+      <div class="space-y-2.5" id="audit-checklist-container">
+        <!-- Rendered by JS with Pass / Fail / N/A buttons -->
+      </div>
+
+      <!-- Finalize & Sign Audit Button -->
+      <button type="button" onclick="finalizeAuditInspection()" class="w-full py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-sm flex items-center justify-center gap-2 hover:bg-primary-container active:scale-[0.99] transition-all">
+        <span class="material-symbols-outlined text-lg">verified</span>
+        <span id="btn-finish-audit">Ø§Ø¹ØªÙ…Ø§Ø¯ ØªÙ‚Ø±ÙŠØ± Ø§Ù„ØªØ¯Ù‚ÙŠÙ‚ ÙˆØ¥ØµØ¯Ø§Ø± Ù†ØªÙŠØ¬Ø© Ø§Ù„Ø§Ù…ØªØ«Ø§Ù„</span>
+      </button>
+
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 5: SMART DOCUMENTS, PTW & DIGITAL SIGNATURES -->
+    <!-- ============================================================= -->
+    <section id="tab-forms" class="tab-content space-y-4">
+      
+      <!-- Workspace Intro -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-2">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-bold text-gray-900 dark:text-white" id="docs-workspace-title">Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ ÙˆØªØµØ§Ø±ÙŠØ­ Ø§Ù„Ø¹Ù…Ù„ Ø§Ù„Ø°ÙƒÙŠØ© (E-Permits &amp; JSA)</h2>
+            <p class="text-xs text-gray-500" id="docs-workspace-sub">ØªØ¹Ø¨Ø¦Ø© ÙˆØªÙˆÙ‚ÙŠØ¹ Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ ÙˆØªØµØ¯ÙŠØ± ÙÙˆØ±ÙŠ Ù„ØªÙ‚Ø§Ø±ÙŠØ± PDF Ø§Ù„Ù…Ø¹ØªÙ…Ø¯Ø©</p>
+          </div>
+          <div class="w-9 h-9 rounded-xl bg-primary/10 text-primary dark:text-emerald-400 flex items-center justify-center">
+            <span class="material-symbols-outlined text-xl">description</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Permit Card with Interactive Digital Signature -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-4" id="active-permit-section">
+        
+        <div class="flex items-start justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
+          <div>
+            <span class="text-[11px] font-bold text-danger px-2 py-0.5 rounded bg-danger-container">ØªØµØ±ÙŠØ­ Ø¹Ø§Ù„ÙŠ Ø§Ù„Ø®Ø·ÙˆØ±Ø© â€¢ Hot Work PTW</span>
+            <h3 class="text-sm font-bold text-gray-900 dark:text-white mt-1">ØªØµØ±ÙŠØ­ Ø£Ø¹Ù…Ø§Ù„ Ø³Ø§Ø®Ù†Ø© (Ù„Ø­Ø§Ù… ÙˆÙ‚Ø·Ø¹ Ø­Ø±Ø§Ø±ÙŠ) #PTW-8821</h3>
+            <p class="text-xs text-gray-500">Ø§Ù„Ù…ÙˆÙ‚Ø¹: Ù…Ù†Ø·Ù‚Ø© ØµÙ‡Ø§Ø±ÙŠØ¬ Ø§Ù„ÙˆÙ‚ÙˆØ¯ Ø±Ù‚Ù… 4 â€¢ Ø§Ù„Ù…Ù‚Ø§ÙˆÙ„: Ø´Ø±ÙƒØ© Ø§Ù„Ø¥Ù†Ø´Ø§Ø¡Ø§Øª Ø§Ù„Ù…ØªØ·ÙˆØ±Ø©</p>
+          </div>
+          <button onclick="downloadPermitPDF()" class="px-3 py-1.5 rounded-xl bg-primary text-white hover:bg-primary-container text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors">
+            <span class="material-symbols-outlined text-base">download</span>
+            <span id="btn-download-pdf-permit">ØªØ­Ù…ÙŠÙ„ PDF Ø±Ø³Ù…ÙŠ</span>
+          </button>
+        </div>
+
+        <!-- Permit Checklist Parameters -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="p-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 space-y-1">
+            <div class="font-bold text-gray-700 dark:text-gray-300">Ù…ØªØ·Ù„Ø¨Ø§Øª Ø§Ù„Ø³Ù„Ø§Ù…Ø© Ø§Ù„Ù…Ø³Ø¨Ù‚Ø©:</div>
+            <div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+              <span class="material-symbols-outlined text-sm">check_circle</span>
+              <span>ÙØ­Øµ ØªØ±ÙƒÙŠØ² Ø§Ù„ØºØ§Ø²Ø§Øª Ø§Ù„Ù‚Ø§Ø¨Ù„Ø© Ù„Ù„Ø§Ø´ØªØ¹Ø§Ù„ (LEL = 0%)</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+              <span class="material-symbols-outlined text-sm">check_circle</span>
+              <span>ØªÙˆÙØ± Ø·ÙØ§ÙŠØ§Øª Ø­Ø±ÙŠÙ‚ Ø¨ÙˆØ¯Ø±Ø© ÙˆÙ…Ø±Ø§Ù‚Ø¨ Ø­Ø±ÙŠÙ‚ Ù…Ø¤Ù‡Ù„ (Fire Watch)</span>
+            </div>
+          </div>
+          
+          <div class="p-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 space-y-1">
+            <div class="font-bold text-gray-700 dark:text-gray-300">ÙØªØ±Ø© Ø§Ù„ØµÙ„Ø§Ø­ÙŠØ© ÙˆØ§Ù„Ù…Ø³Ø¤ÙˆÙ„ÙŠØ©:</div>
+            <div class="text-gray-600 dark:text-gray-400">ØµØ§Ù„Ø­ Ø­ØªÙ‰: <span class="font-bold">Ø§Ù„ÙŠÙˆÙ… 18:00 Ù…Ø³Ø§Ø¡Ù‹</span></div>
+            <div class="text-gray-600 dark:text-gray-400">Ø¶Ø§Ø¨Ø· Ø§Ù„Ø³Ù„Ø§Ù…Ø© Ø§Ù„Ù…Ù†Ø§ÙˆØ¨: <span class="font-bold text-primary dark:text-emerald-400">Ù…. Ø³Ø§Ø±Ø© Ø§Ù„Ù…Ù†ØµÙˆØ±</span></div>
+          </div>
+        </div>
+
+        <!-- Digital Signature Pad -->
+        <div class="p-3 bg-gray-50 dark:bg-gray-800/60 rounded-xl border border-gray-200 dark:border-gray-700 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-gray-800 dark:text-gray-200 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-primary dark:text-emerald-400">gesture</span>
+              <span id="sig-pad-title">ØªÙˆÙ‚ÙŠØ¹ Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ø±Ù‚Ù…ÙŠ Ø§Ù„Ø­ÙŠ (Electronic Signature Capture)</span>
+            </span>
+            <button type="button" onclick="clearSignaturePad()" class="px-2 py-0.5 rounded text-[11px] font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700">
+              Ù…Ø³Ø­ Ø§Ù„ØªÙˆÙ‚ÙŠØ¹
+            </button>
+          </div>
+          
+          <div class="text-[11px] text-gray-500" id="sig-hint">ÙˆÙ‚Ø¹ Ø¯Ø§Ø®Ù„ Ø§Ù„ØµÙ†Ø¯ÙˆÙ‚ Ø£Ø¯Ù†Ø§Ù‡ Ø¨ÙˆØ§Ø³Ø·Ø© Ø§Ù„Ù„Ù…Ø³ Ø£Ùˆ Ø§Ù„ÙØ£Ø±Ø© Ù„Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„ØªØµØ±ÙŠØ­ Ø±Ø³Ù…ÙŠØ§Ù‹:</div>
+          
+          <!-- Signature Canvas -->
+          <div class="relative w-full rounded-xl overflow-hidden border-2 border-dashed border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 flex items-center justify-center h-28">
+            <canvas id="signatureCanvas" width="500" height="110" class="w-full h-full cursor-crosshair touch-none"></canvas>
+            <div id="sig-placeholder" class="absolute pointer-events-none text-xs text-gray-400">
+              ØªÙˆÙ‚ÙŠØ¹ Ø§Ù„Ù…Ø³Ø¤ÙˆÙ„ Ø§Ù„Ù…Ø¹ØªÙ…Ø¯ Ù‡Ù†Ø§
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-gray-500 pt-1">
+            <span class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+              <span class="material-symbols-outlined text-xs">lock</span>
+              ØªÙˆÙ‚ÙŠØ¹ Ù…Ø´ÙØ± ÙˆØºÙŠØ± Ù‚Ø§Ø¨Ù„ Ù„Ù„ØªÙ„Ø§Ø¹Ø¨ ÙˆÙ…Ø³Ø¬Ù„ Ø¨Ø§Ù„ØªØ§Ø±ÙŠØ® ÙˆØ§Ù„Ø³Ø§Ø¹Ø©
+            </span>
+            <button type="button" onclick="saveSignatureStamp()" class="px-2.5 py-1 rounded bg-primary text-white font-bold text-[10px]">
+              ØªØ«Ø¨ÙŠØª Ø§Ù„ØªÙˆÙ‚ÙŠØ¹
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Available EHS Forms Templates Grid -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-3">
+        <h3 class="text-sm font-bold text-gray-900 dark:text-white" id="templates-list-title">Ù‚ÙˆØ§Ù„Ø¨ Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ ÙˆØ³Ø¬Ù„Ø§Øª Ø§Ù„Ø³Ù„Ø§Ù…Ø© Ø§Ù„Ø¬Ø§Ù‡Ø²Ø©</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          
+          <div class="p-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-primary transition-all flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-secondary-light flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">groups</span>
+              </span>
+              <div>
+                <div class="text-xs font-bold text-gray-800 dark:text-gray-200">Ø³Ø¬Ù„ Ù…Ø­Ø§Ø¯Ø«Ø§Øª Ø§Ù„Ø³Ù„Ø§Ù…Ø© (Toolbox Talk)</div>
+                <div class="text-[10px] text-gray-500">Ø­ØµØ± Ø­Ø¶ÙˆØ± 24 Ø¹Ø§Ù…Ù„ â€¢ Ù…ÙˆØ¶ÙˆØ¹ Ø§Ù„Ø¹Ù…Ù„ Ø¹Ù„Ù‰ Ø§Ø±ØªÙØ§Ø¹</div>
+              </div>
+            </div>
+            <button onclick="alert('ØªÙ… ØªØ¬Ù‡ÙŠØ² Ù‚Ø§Ù„Ø¨ Ù…Ø­Ø§Ø¯Ø«Ø© Ø§Ù„Ø³Ù„Ø§Ù…Ø© TBT Ù„Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù…!')" class="text-xs text-primary dark:text-emerald-400 font-semibold">ÙØªØ­</button>
+          </div>
+
+          <div class="p-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-primary transition-all flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-primary dark:text-emerald-400 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">shield_with_heart</span>
+              </span>
+              <div>
+                <div class="text-xs font-bold text-gray-800 dark:text-gray-200">ØªÙ‚ÙŠÙŠÙ… Ù…Ø®Ø§Ø·Ø± Ø¨ÙŠØ¦Ø© Ø§Ù„Ø¹Ù…Ù„ (RAMS / JSA)</div>
+                <div class="text-[10px] text-gray-500">Ù…ØµÙÙˆÙØ© Ù…Ø±Ø§Ø¬Ø¹Ø© Ø§Ù„Ø£Ø®Ø·Ø§Ø± 5x5</div>
+              </div>
+            </div>
+            <button onclick="alert('ØªÙ… ØªØ¬Ù‡ÙŠØ² Ù‚Ø§Ù„Ø¨ ØªÙ‚ÙŠÙŠÙ… Ø§Ù„Ù…Ø®Ø§Ø·Ø± JSA Ù„Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù…!')" class="text-xs text-primary dark:text-emerald-400 font-semibold">ÙØªØ­</button>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ============================================================= -->
+  <!-- MODAL: ADD NEW CAPA ACTION -->
+  <!-- ============================================================= -->
+  <div id="new-capa-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-surface-card dark:bg-surface-card-dark w-full max-w-md rounded-2xl p-5 shadow-xl border border-gray-100 dark:border-gray-800 space-y-3">
+      <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
+        <h3 class="text-sm font-bold text-gray-900 dark:text-white" id="modal-new-capa-title">Ø¥Ø¶Ø§ÙØ© Ø¥Ø¬Ø±Ø§Ø¡ ØªØµØ­ÙŠØ­ÙŠ / ÙˆÙ‚Ø§Ø¦ÙŠ (CAPA)</h3>
+        <button onclick="closeNewCAPAModal()" class="text-gray-400 hover:text-gray-600">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-capa-action-title">Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡</label>
+          <input type="text" id="capa-new-title" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white" placeholder="Ù…Ø«Ø§Ù„: ØªØ±ÙƒÙŠØ¨ Ø­ÙˆØ§Ø¬Ø² Ø­Ù…Ø§ÙŠØ© Ø¥Ø¶Ø§ÙÙŠØ© Ù„Ù„Ø³Ù„Ø§Ù„Ù… Ø§Ù„ÙƒÙ‡Ø±Ø¨Ø§Ø¦ÙŠØ©" />
+        </div>
+        <div>
+          <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-capa-assignee">Ø§Ù„Ù…Ø³Ø¤ÙˆÙ„ Ø¹Ù† Ø§Ù„ØªÙ†ÙÙŠØ°</label>
+          <input type="text" id="capa-new-assignee" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white" placeholder="Ù…Ù‡Ù†Ø¯Ø³ Ø§Ù„Ù…ÙˆÙ‚Ø¹: Ø®Ø§Ù„Ø¯ Ø§Ù„Ø³Ø§Ù„Ù…" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-capa-deadline">Ø§Ù„Ù…ÙˆØ¹Ø¯ Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠ</label>
+            <input type="date" id="capa-new-date" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white" />
+          </div>
+          <div>
+            <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-capa-priority">Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ©</label>
+            <select id="capa-new-priority" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white">
+              <option value="high">Ø¹Ø§Ù„ÙŠØ© (High)</option>
+              <option value="medium" selected>Ù…ØªÙˆØ³Ø·Ø© (Medium)</option>
+              <option value="low">Ù…Ù†Ø®ÙØ¶Ø© (Low)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="saveNewCAPA()" class="flex-1 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-container" id="btn-save-capa">Ø­ÙØ¸ ÙˆØªØ¹ÙŠÙŠÙ† Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡</button>
+        <button onclick="closeNewCAPAModal()" class="px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-semibold" id="btn-cancel-capa">Ø¥Ù„ØºØ§Ø¡</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- BOTTOM FIXED NAVIGATION BAR (Thumb-friendly & Ergonomic) -->
+  <!-- ============================================================= -->
+  <nav class="fixed bottom-0 inset-x-0 z-50 bg-white/95 dark:bg-[#151c1a]/95 backdrop-blur-md border-t border-gray-100 dark:border-gray-800 shadow-[0_-2px_12px_rgba(0,0,0,0.04)] pb-safe">
+    <div class="h-16 max-w-lg mx-auto flex items-center justify-around px-2">
+      
+      <!-- Nav 1: Dashboard -->
+      <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="nav-item flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-primary dark:text-emerald-400 transition-all">
+        <span class="material-symbols-outlined text-[22px]">dashboard</span>
+        <span class="text-[10px] font-bold mt-0.5" id="nav-label-dashboard">Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©</span>
+      </button>
+
+      <!-- Nav 2: Incident -->
+      <button onclick="switchTab('incident')" id="nav-btn-incident" class="nav-item flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-gray-500 dark:text-gray-400 hover:text-primary transition-all">
+        <span class="material-symbols-outlined text-[22px]">report_problem</span>
+        <span class="text-[10px] font-medium mt-0.5" id="nav-label-incident">Ø§Ù„Ø­ÙˆØ§Ø¯Ø«</span>
+      </button>
+
+      <!-- Nav 3: CAPA -->
+      <button onclick="switchTab('capa')" id="nav-btn-capa" class="nav-item flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-gray-500 dark:text-gray-400 hover:text-primary transition-all">
+        <span class="material-symbols-outlined text-[22px]">assignment_turned_in</span>
+        <span class="text-[10px] font-medium mt-0.5" id="nav-label-capa">CAPA</span>
+      </button>
+
+      <!-- Nav 4: Audit -->
+      <button onclick="switchTab('audit')" id="nav-btn-audit" class="nav-item flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-gray-500 dark:text-gray-400 hover:text-primary transition-all">
+        <span class="material-symbols-outlined text-[22px]">fact_check</span>
+        <span class="text-[10px] font-medium mt-0.5" id="nav-label-audit">Ø§Ù„ØªÙØªÙŠØ´</span>
+      </button>
+
+      <!-- Nav 5: Forms -->
+      <button onclick="switchTab('forms')" id="nav-btn-forms" class="nav-item flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-gray-500 dark:text-gray-400 hover:text-primary transition-all">
+        <span class="material-symbols-outlined text-[22px]">description</span>
+        <span class="text-[10px] font-medium mt-0.5" id="nav-label-forms">Ø§Ù„Ù†Ù…Ø§Ø°Ø¬</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ============================================================= -->
+  <!-- APPLICATION LOGIC, OFFLINE ENGINE, I18N & ANNOTATION SCRIPT -->
+  <!-- ============================================================= -->
+  <script>
+    // --- 1. LOCALIZATION (i18n) DICTIONARY ---
+    const i18n = {
+      ar: {
+        dir: 'rtl',
+        lang: 'ar',
+        brandTitle: 'EHS Track Pro',
+        syncOnline: 'Ù…ØªØµÙ„ â€¢ ØªÙ…Øª Ø§Ù„Ù…Ø²Ø§Ù…Ù†Ø©',
+        syncOffline: 'Ø§Ù„ÙˆØ¶Ø¹ Ø§Ù„Ù…ÙŠØ¯Ø§Ù†ÙŠ ØºÙŠØ± Ù…ØªØµÙ„ (Offline)',
+        syncBtn: 'Ù…Ø²Ø§Ù…Ù†Ø© Ø§Ù„Ø¢Ù†',
+        greeting: 'Ù…Ø±Ø­Ø¨Ø§Ù‹ Ø¨Ø¹ÙˆØ¯ØªÙƒ',
+        inspectorName: 'Ù…. Ø³Ø§Ø±Ø© Ø§Ù„Ù…Ù†ØµÙˆØ± (Lead EHS Auditor)',
+        siteLabel: 'Ù…ÙˆÙ‚Ø¹ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹: Ø§Ù„Ù…Ø¬Ù…Ø¹ Ø§Ù„ØµÙ†Ø§Ø¹ÙŠ - Ø§Ù„Ù…Ù†Ø·Ù‚Ø© Ø§Ù„ØºØ±Ø¨ÙŠØ©',
+        shiftProgress: 'Ø§ÙƒØªÙ…Ø§Ù„ Ø¹Ù…Ù„ÙŠØ§Øª Ø§Ù„ØªØ¯Ù‚ÙŠÙ‚ Ø§Ù„Ù…ÙŠØ¯Ø§Ù†ÙŠ Ø§Ù„Ù…Ø¬Ø¯ÙˆÙ„Ø©',
+        offlineTitle: 'Ø§Ù„ÙˆØ¶Ø¹ Ø§Ù„Ù…ÙŠØ¯Ø§Ù†ÙŠ Ø§Ù„Ø°ÙƒÙŠ (Offline-First)',
+        offlineSub: 'ÙŠÙ…ÙƒÙ†Ùƒ ÙØ­Øµ Ø§Ù„Ù…Ø¹Ø¯Ø§Øª ÙˆØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¨Ù„Ø§ØºØ§Øª Ø¨Ø¯ÙˆÙ† Ø¥Ù†ØªØ±Ù†ØªØŒ ÙˆØ³ØªÙØ±ÙØ¹ ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹ Ø¹Ù†Ø¯ Ø§Ù„Ø§ØªØµØ§Ù„.',
+        kpiTitle: 'Ù…Ø¤Ø´Ø±Ø§Øª Ø§Ù„Ø³Ù„Ø§Ù…Ø© ÙˆØ§Ù„Ø£Ø¯Ø§Ø¡ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©',
+        kpiQuarter: 'Ø§Ù„Ø±Ø¨Ø¹ Ø§Ù„Ø£Ø®ÙŠØ± 2026',
+        kpiLtifr: 'Ù…Ø¹Ø¯Ù„ ØªÙƒØ±Ø§Ø± Ø§Ù„Ø¥ØµØ§Ø¨Ø§Øª',
+        kpiAudit: 'Ù†Ø³Ø¨Ø© Ø§Ù„Ø§Ù…ØªØ«Ø§Ù„ Ø§Ù„Ø¨ÙŠØ¦ÙŠ',
+        kpiHours: 'Ø³Ø§Ø¹Ø§Øª Ø¹Ù…Ù„ Ø¢Ù…Ù†Ø©',
+        kpiCapa: 'Ø³Ø±Ø¹Ø© Ø¥ØºÙ„Ø§Ù‚ Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡Ø§Øª',
+        navDashboard: 'Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©',
+        navIncident: 'Ø§Ù„Ø­ÙˆØ§Ø¯Ø«',
+        navCapa: 'CAPA',
+        navAudit: 'Ø§Ù„ØªÙØªÙŠØ´',
+        navForms: 'Ø§Ù„Ù†Ù…Ø§Ø°Ø¬',
+        reportIncident: 'Ø¥Ø¨Ù„Ø§Øº Ø¹Ù† Ø­Ø§Ø¯Ø«',
+        issuePtw: 'Ø¥ØµØ¯Ø§Ø± ØªØµØ±ÙŠØ­ PTW',
+        startAudit: 'Ø¬ÙˆÙ„Ø© ØªÙØªÙŠØ´ÙŠØ©',
+        viewCapa: 'Ù…ØªØ§Ø¨Ø¹Ø© CAPA',
+        newIncidentTitle: 'ØªØ³Ø¬ÙŠÙ„ Ø¨Ù„Ø§Øº Ø­Ø§Ø¯Ø« Ø£Ùˆ Ø®Ø·Ø± Ù…Ù‡Ù†ÙŠ Ø¬Ø¯ÙŠØ¯',
+        capaHeading: 'Ù…ØªØ§Ø¨Ø¹Ø© Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡Ø§Øª Ø§Ù„ØªØµØ­ÙŠØ­ÙŠØ© ÙˆØ§Ù„ÙˆÙ‚Ø§Ø¦ÙŠØ©',
+        docsTitle: 'Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ ÙˆØªØµØ§Ø±ÙŠØ­ Ø§Ù„Ø¹Ù…Ù„ Ø§Ù„Ø°ÙƒÙŠØ© (E-Permits & JSA)',
+        downloadPdf: 'ØªØ­Ù…ÙŠÙ„ PDF Ø±Ø³Ù…ÙŠ'
+      },
+      en: {
+        dir: 'ltr',
+        lang: 'en',
+        brandTitle: 'EHS Track Pro',
+        syncOnline: 'Online â€¢ Synced',
+        syncOffline: 'Offline Mode (Local Storage)',
+        syncBtn: 'Sync Now',
+        greeting: 'Welcome back',
+        inspectorName: 'Eng. Sarah Al-Mansoor (Lead EHS Auditor)',
+        siteLabel: 'Project Site: Industrial Complex - West Sector',
+        shiftProgress: 'Scheduled Field Audits Completed',
+        offlineTitle: 'Offline-First Field Capability',
+        offlineSub: 'Conduct inspections and log hazards with zero connectivity. Syncs automatically when online.',
+        kpiTitle: 'Key Health, Safety & Environment KPIs',
+        kpiQuarter: 'Q4 2026',
+        kpiLtifr: 'Lost Time Injury Freq Rate',
+        kpiAudit: 'Environmental Compliance',
+        kpiHours: 'Safe Man-Hours Worked',
+        kpiCapa: 'CAPA Closure Velocity',
+        navDashboard: 'Dashboard',
+        navIncident: 'Incidents',
+        navCapa: 'CAPA',
+        navAudit: 'Audits',
+        navForms: 'Forms',
+        reportIncident: 'Report Incident',
+        issuePtw: 'Issue PTW Permit',
+        startAudit: 'Start Inspection',
+        viewCapa: 'CAPA Tracking',
+        newIncidentTitle: 'Report Workplace Incident or Hazard',
+        capaHeading: 'Corrective & Preventive Actions (CAPA)',
+        docsTitle: 'Smart Documents & E-Permit Workspace',
+        downloadPdf: 'Download Official PDF'
+      },
+      fr: {
+        dir: 'ltr',
+        lang: 'fr',
+        brandTitle: 'EHS Track Pro',
+        syncOnline: 'En ligne â€¢ SynchronisÃ©',
+        syncOffline: 'Mode Hors-ligne (Stockage Local)',
+        syncBtn: 'Synchroniser',
+        greeting: 'Bienvenue',
+        inspectorName: 'Ing. Sarah Al-Mansoor (Auditeur EHS Principal)',
+        siteLabel: 'Site: Complexe Industriel - Zone Ouest',
+        shiftProgress: 'Audits de terrain planifiÃ©s achevÃ©s',
+        offlineTitle: 'CapacitÃ© Hors-Ligne (Offline-First)',
+        offlineSub: 'Inspectez et signalez sans connexion. Synchronisation automatique dÃ¨s le rÃ©tablissement.',
+        kpiTitle: 'Indicateurs ClÃ©s SSE (KPI)',
+        kpiQuarter: 'T4 2026',
+        kpiLtifr: 'Taux de FrÃ©quence des Accidents',
+        kpiAudit: 'ConformitÃ© Environnementale',
+        kpiHours: 'Heures TravaillÃ©es Sans Accident',
+        kpiCapa: 'Vitesse de ClÃ´ture CAPA',
+        navDashboard: 'Accueil',
+        navIncident: 'Incidents',
+        navCapa: 'CAPA',
+        navAudit: 'Audits',
+        navForms: 'Formulaires',
+        reportIncident: 'Signaler Incident',
+        issuePtw: 'DÃ©livrer Permis PTW',
+        startAudit: 'DÃ©marrer Audit',
+        viewCapa: 'Suivi CAPA',
+        newIncidentTitle: 'DÃ©clarer un Incident ou Risque Professionnel',
+        capaHeading: 'Actions Correctives & PrÃ©ventives (CAPA)',
+        docsTitle: 'Documents Intelligents & Permis de Travail',
+        downloadPdf: 'TÃ©lÃ©charger PDF Officiel'
+      }
+    };
+
+    let currentLang = 'ar';
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      const data = i18n[lang];
+      document.documentElement.setAttribute('dir', data.dir);
+      document.documentElement.setAttribute('lang', data.lang);
+
+      // Toggle active language button styles
+      ['ar', 'en', 'fr'].forEach(l => {
+        const btn = document.getElementById(`lang-${l}-btn`);
+        if (l === lang) {
+          btn.className = "px-2.5 py-1 rounded-full transition-all bg-white dark:bg-gray-700 text-primary dark:text-emerald-400 shadow-xs";
+        } else {
+          btn.className = "px-2.5 py-1 rounded-full transition-all text-gray-500 dark:text-gray-400";
+        }
+      });
+
+      // Update text nodes
+      document.getElementById('brand-title').innerText = data.brandTitle;
+      document.getElementById('sync-status-text').innerText = data.syncOnline;
+      document.getElementById('sync-btn-text').innerText = data.syncBtn;
+      document.getElementById('greeting-text').innerText = data.greeting;
+      document.getElementById('inspector-name').innerText = data.inspectorName;
+      document.getElementById('site-label').innerText = data.siteLabel;
+      document.getElementById('shift-progress-label').innerText = data.shiftProgress;
+      document.getElementById('offline-mode-title').innerText = data.offlineTitle;
+      document.getElementById('offline-mode-sub').innerText = data.offlineSub;
+      document.getElementById('kpi-section-title').innerText = data.kpiTitle;
+      document.getElementById('kpi-quarter').innerText = data.kpiQuarter;
+      document.getElementById('kpi-ltifr-title').innerText = data.kpiLtifr;
+      document.getElementById('kpi-audit-title').innerText = data.kpiAudit;
+      document.getElementById('kpi-hours-title').innerText = data.kpiHours;
+      document.getElementById('kpi-capa-title').innerText = data.kpiCapa;
+      
+      document.getElementById('nav-label-dashboard').innerText = data.navDashboard;
+      document.getElementById('nav-label-incident').innerText = data.navIncident;
+      document.getElementById('nav-label-capa').innerText = data.navCapa;
+      document.getElementById('nav-label-audit').innerText = data.navAudit;
+      document.getElementById('nav-label-forms').innerText = data.navForms;
+
+      document.getElementById('action-report-incident').innerText = data.reportIncident;
+      document.getElementById('action-issue-ptw').innerText = data.issuePtw;
+      document.getElementById('action-start-audit').innerText = data.startAudit;
+      document.getElementById('action-view-capa').innerText = data.viewCapa;
+      document.getElementById('new-incident-title').innerText = data.newIncidentTitle;
+      document.getElementById('capa-heading').innerText = data.capaHeading;
+      document.getElementById('docs-workspace-title').innerText = data.docsTitle;
+      document.getElementById('btn-download-pdf-permit').innerText = data.downloadPdf;
+    }
+
+    // --- 2. TAB ROUTING & NAVIGATION ---
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(`tab-${tabId}`);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-item').forEach(el => {
+        el.classList.remove('text-primary', 'dark:text-emerald-400');
+        el.classList.add('text-gray-500', 'dark:text-gray-400');
+        const span = el.querySelector('span:last-child');
+        if (span) { span.classList.remove('font-bold'); span.classList.add('font-medium'); }
+      });
+
+      const activeNav = document.getElementById(`nav-btn-${tabId}`);
+      if (activeNav) {
+        activeNav.classList.remove('text-gray-500', 'dark:text-gray-400');
+        activeNav.classList.add('text-primary', 'dark:text-emerald-400');
+        const span = activeNav.querySelector('span:last-child');
+        if (span) { span.classList.remove('font-medium'); span.classList.add('font-bold'); }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- 3. VISUAL COMFORT / DARK MODE TOGGLE ---
+    function toggleVisualComfortMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      const icon = document.getElementById('theme-icon');
+      if (isDark) {
+        icon.innerText = 'light_mode';
+        localStorage.setItem('ehs_theme', 'dark');
+      } else {
+        icon.innerText = 'dark_mode';
+        localStorage.setItem('ehs_theme', 'light');
+      }
+    }
+
+    // --- 4. OFFLINE-FIRST PERSISTENCE & SYNC SIMULATOR ---
+    const initialCAPA = [
+      { id: 'CAPA-2026-101', title: 'Ø¥Ø¹Ø§Ø¯Ø© Ø¹Ø²Ù„ ÙƒØ§Ø¨Ù„Ø§Øª Ø§Ù„ØªØºØ°ÙŠØ© Ø§Ù„ÙƒÙ‡Ø±Ø¨Ø§Ø¦ÙŠØ© Ø¨Ø§Ù„ÙˆØ±Ø´Ø© Ø±Ù‚Ù… 2', assignee: 'Ø£Ø­Ù…Ø¯ Ø§Ù„ØªÙ…ÙŠÙ…ÙŠ', date: '2026-10-20', status: 'progress', priority: 'high' },
+      { id: 'CAPA-2026-102', title: 'ØªØ±ÙƒÙŠØ¨ ØµÙ…Ø§Ù… Ø¹Ø¯Ù… Ø±Ø¬ÙˆØ¹ Ø¹Ù„Ù‰ Ø®Ø· ØªØ¨Ø±ÙŠØ¯ Ø§Ù„Ø¶ÙˆØ§ØºØ·', assignee: 'Ù…. Ø³Ø§Ù„Ù… Ø§Ù„Ù‚Ø­Ø·Ø§Ù†ÙŠ', date: '2026-10-25', status: 'progress', priority: 'medium' },
+      { id: 'CAPA-2026-103', title: 'Ø§Ø³ØªØ¨Ø¯Ø§Ù„ Ø·ÙØ§ÙŠØ§Øª Ø§Ù„Ø­Ø±ÙŠÙ‚ Ù…Ù†ØªÙ‡ÙŠØ© Ø§Ù„ØµÙ„Ø§Ø­ÙŠØ© Ø¨Ø§Ù„Ù…Ø³ØªÙˆØ¯Ø¹ B', assignee: 'ÙØ±ÙŠÙ‚ Ø§Ù„Ø¥Ø·ÙØ§Ø¡', date: '2026-10-14', status: 'closed', priority: 'high' },
+      { id: 'CAPA-2026-104', title: 'ØªÙˆÙÙŠØ± Ù†Ø¸Ø§Ø±Ø§Øª ÙˆØ§Ù‚ÙŠØ© Ù…ØªÙˆØ§ÙÙ‚Ø© Ù…Ø¹ Ù…Ø¹Ø§ÙŠÙŠØ± ANSI Z87', assignee: 'Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ù…Ø´ØªØ±ÙŠØ§Øª', date: '2026-10-12', status: 'closed', priority: 'low' },
+      { id: 'CAPA-2026-105', title: 'Ø¥ØµÙ„Ø§Ø­ ØªØ³Ø±Ø¨ Ø²ÙŠØª ÙÙŠ Ù…Ù†Ø·Ù‚Ø© Ø´Ø­Ù† Ø§Ù„Ø±Ø§ÙØ¹Ø§Øª', assignee: 'ÙÙ†ÙŠ Ø§Ù„ØµÙŠØ§Ù†Ø©', date: '2026-10-10', status: 'closed', priority: 'medium' },
+      { id: 'CAPA-2026-106', title: 'Ø¥Ø¹Ø§Ø¯Ø© Ø¯Ù‡Ø§Ù† Ù…Ø³Ø§Ø±Ø§Øª Ø§Ù„Ù…Ø´Ø§Ø© Ø§Ù„Ø¢Ù…Ù†Ø© Ø¨Ø§Ù„Ù„ÙˆÙ† Ø§Ù„Ø£ØµÙØ± Ø§Ù„ØªØ­Ø°ÙŠØ±ÙŠ', assignee: 'Ù…Ù‚Ø§ÙˆÙ„ Ø§Ù„Ø·Ø±Ù‚ Ø§Ù„Ø¯Ø§Ø®Ù„ÙŠ', date: '2026-10-05', status: 'overdue', priority: 'high' }
+    ];
+
+    let capaList = JSON.parse(localStorage.getItem('ehs_capa')) || initialCAPA;
+    let incidentList = JSON.parse(localStorage.getItem('ehs_incidents')) || [
+      { id: 'INC-2026-301', type: 'near_miss', title: 'Ø§Ù†Ø²Ù„Ø§Ù‚ Ø±Ø§ÙØ¹Ø© Ø´ÙˆÙƒÙŠØ© Ø¨Ø³Ø¨Ø¨ Ø±Ø·ÙˆØ¨Ø© Ø§Ù„Ø£Ø±Ø¶ÙŠØ©', location: 'Ø§Ù„Ù…Ø³ØªÙˆØ¯Ø¹ Ø§Ù„Ø´Ù…Ø§Ù„ÙŠ', time: '10:15 AM' },
+      { id: 'INC-2026-302', type: 'environmental', title: 'Ø§Ù†Ø³ÙƒØ§Ø¨ 5 Ù„ØªØ± Ø²ÙŠØª ØªØ´Ø­ÙŠÙ… ÙÙŠ Ø­ÙˆØ¶ Ø§Ù„ØªØ¬Ù…ÙŠØ¹', location: 'Ø§Ù„Ù…Ø­Ø·Ø© 2', time: 'Ø£Ù…Ø³ 04:30 PM' }
+    ];
+
+    function saveToLocalStorage() {
+      localStorage.setItem('ehs_capa', JSON.stringify(capaList));
+      localStorage.setItem('ehs_incidents', JSON.stringify(incidentList));
+    }
+
+    function triggerQuickSync() {
+      const dot = document.getElementById('sync-dot');
+      const text = document.getElementById('sync-status-text');
+      dot.className = "w-2 h-2 rounded-full bg-amber-500 animate-spin";
+      text.innerText = currentLang === 'ar' ? 'Ø¬Ø§Ø±ÙŠ Ø±ÙØ¹ Ø§Ù„Ø³Ø¬Ù„Ø§Øª ÙˆÙ…Ø²Ø§Ù…Ù†Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª...' : 'Syncing local delta queue...';
+      
+      setTimeout(() => {
+        dot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+        text.innerText = i18n[currentLang].syncOnline;
+        document.getElementById('pending-records-count').innerText = currentLang === 'ar' ? 'ØªÙ…Øª Ø§Ù„Ù…Ø²Ø§Ù…Ù†Ø© Ø¨Ø§Ù„ÙƒØ§Ù…Ù„' : 'Fully Synced';
+        alert(currentLang === 'ar' ? 'ØªÙ…Øª Ù…Ø²Ø§Ù…Ù†Ø© Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø³Ø¬Ù„Ø§Øª Ø§Ù„Ù…Ø¹Ù„Ù‚Ø© ÙˆÙ‚ÙˆØ§Ø¦Ù… Ø§Ù„ØªØ¯Ù‚ÙŠÙ‚ Ø¨Ù†Ø¬Ø§Ø­ Ù…Ø¹ Ø§Ù„Ø³Ø­Ø§Ø¨Ø©!' : 'All local reports and CAPAs synchronized successfully!');
+      }, 1200);
+    }
+
+    // --- 5. CAPA RENDER & MANAGEMENT ---
+    function renderCAPAList(filter = 'all') {
+      const container = document.getElementById('capa-items-container');
+      container.innerHTML = '';
+
+      const filtered = capaList.filter(item => {
+        if (filter === 'all') return true;
+        return item.status === filter;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="p-6 text-center text-xs text-gray-500 bg-surface-card dark:bg-surface-card-dark rounded-xl">Ù„Ø§ ØªÙˆØ¬Ø¯ Ø¥Ø¬Ø±Ø§Ø¡Ø§Øª Ø¶Ù…Ù† Ù‡Ø°Ø§ Ø§Ù„ØªØµÙ†ÙŠÙ</div>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        let badgeColor = 'bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300';
+        let statusText = 'Ù‚ÙŠØ¯ Ø§Ù„ØªÙ†ÙÙŠØ°';
+        if (item.status === 'closed') {
+          badgeColor = 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300';
+          statusText = 'Ù…ÙƒØªÙ…Ù„ ÙˆÙ…ØºÙ„Ù‚';
+        } else if (item.status === 'overdue') {
+          badgeColor = 'bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-300';
+          statusText = 'Ù…ØªØ£Ø®Ø±';
+        }
+
+        const div = document.createElement('div');
+        div.className = "bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3";
+        div.innerHTML = `
+          <div class="space-y-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono font-bold text-primary dark:text-emerald-400 bg-emerald-50 dark:bg-gray-800 px-1.5 py-0.5 rounded">${item.id}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeColor}">${statusText}</span>
+              <span class="text-[10px] text-gray-400">Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ©: ${item.priority.toUpperCase()}</span>
+            </div>
+            <h4 class="text-xs font-bold text-gray-900 dark:text-white truncate">${item.title}</h4>
+            <div class="text-[11px] text-gray-500">Ø§Ù„Ù…Ø³Ø¤ÙˆÙ„: <span class="text-gray-700 dark:text-gray-300 font-medium">${item.assignee}</span> â€¢ ØªØ§Ø±ÙŠØ® Ø§Ù„Ø¥Ù†Ø¬Ø§Ø²: ${item.date}</div>
+          </div>
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            ${item.status !== 'closed' ? `
+              <button onclick="markCAPAClosed('${item.id}')" class="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-primary dark:text-emerald-400 text-xs font-semibold flex items-center gap-1 hover:bg-emerald-100">
+                <span class="material-symbols-outlined text-sm">done_all</span>
+                <span>Ø¥ØºÙ„Ø§Ù‚ Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡</span>
+              </button>
+            ` : `
+              <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">verified</span>
+                <span>Ù…Ø¹ØªÙ…Ø¯ ÙˆÙ…ØºÙ„Ù‚</span>
+              </span>
+            `}
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      updateCAPAStats();
+    }
+
+    function updateCAPAStats() {
+      const total = capaList.length;
+      const progress = capaList.filter(c => c.status === 'progress').length;
+      const closed = capaList.filter(c => c.status === 'closed').length;
+      const overdue = capaList.filter(c => c.status === 'overdue').length;
+
+      document.getElementById('capa-count-total').innerText = total;
+      document.getElementById('capa-count-progress').innerText = progress;
+      document.getElementById('capa-count-closed').innerText = closed;
+      document.getElementById('capa-count-overdue').innerText = overdue;
+    }
+
+    function filterCAPAList(filter, btn) {
+      document.querySelectorAll('#capa-filter-tabs button').forEach(b => {
+        b.className = "px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200";
+      });
+      btn.className = "px-3.5 py-1.5 rounded-full text-xs font-bold bg-primary text-white shadow-xs";
+      renderCAPAList(filter);
+    }
+
+    function markCAPAClosed(id) {
+      capaList = capaList.map(c => c.id === id ? { ...c, status: 'closed' } : c);
+      saveToLocalStorage();
+      renderCAPAList('all');
+    }
+
+    function openNewCAPAModal() {
+      document.getElementById('new-capa-modal').classList.remove('hidden');
+      document.getElementById('new-capa-modal').classList.add('flex');
+    }
+
+    function closeNewCAPAModal() {
+      document.getElementById('new-capa-modal').classList.remove('flex');
+      document.getElementById('new-capa-modal').classList.add('hidden');
+    }
+
+    function saveNewCAPA() {
+      const title = document.getElementById('capa-new-title').value.trim();
+      const assignee = document.getElementById('capa-new-assignee').value.trim();
+      const date = document.getElementById('capa-new-date').value || '2026-10-30';
+      const priority = document.getElementById('capa-new-priority').value;
+
+      if (!title || !assignee) {
+        alert(currentLang === 'ar' ? 'ÙŠØ±Ø¬Ù‰ ÙƒØªØ§Ø¨Ø© Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡ ÙˆØ§Ø³Ù… Ø§Ù„Ù…Ø³Ø¤ÙˆÙ„' : 'Please provide action title and assignee');
+        return;
+      }
+
+      const newId = `CAPA-2026-${Math.floor(100 + Math.random() * 900)}`;
+      capaList.unshift({ id: newId, title, assignee, date, status: 'progress', priority });
+      saveToLocalStorage();
+      renderCAPAList('all');
+      closeNewCAPAModal();
+      document.getElementById('capa-new-title').value = '';
+      document.getElementById('capa-new-assignee').value = '';
+    }
+
+    // --- 6. IMAGE HAZARD ANNOTATION CANVAS ENGINE ---
+    const hazardCanvas = document.getElementById('hazardCanvas');
+    const hctx = hazardCanvas.getContext('2d');
+    let isDrawing = false;
+    let penColor = '#e76f51';
+    let currentImage = null;
+
+    function initHazardCanvas() {
+      hctx.fillStyle = "#1e293b";
+      hctx.fillRect(0, 0, hazardCanvas.width, hazardCanvas.height);
+      
+      // Grid pattern for tactical field look
+      hctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+      hctx.lineWidth = 1;
+      for (let x = 0; x < hazardCanvas.width; x += 30) {
+        hctx.beginPath(); hctx.moveTo(x, 0); hctx.lineTo(x, hazardCanvas.height); hctx.stroke();
+      }
+      for (let y = 0; y < hazardCanvas.height; y += 30) {
+        hctx.beginPath(); hctx.moveTo(0, y); hctx.lineTo(hazardCanvas.width, y); hctx.stroke();
+      }
+    }
+
+    function setPenColor(color) {
+      penColor = color;
+    }
+
+    function getCanvasCoordinates(e) {
+      const rect = hazardCanvas.getBoundingClientRect();
+      const scaleX = hazardCanvas.width / rect.width;
+      const scaleY = hazardCanvas.height / rect.height;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
+      };
+    }
+
+    function startDraw(e) {
+      isDrawing = true;
+      document.getElementById('canvas-empty-state').style.display = 'none';
+      const pos = getCanvasCoordinates(e);
+      hctx.beginPath();
+      hctx.moveTo(pos.x, pos.y);
+      hctx.strokeStyle = penColor;
+      hctx.lineWidth = 4;
+      hctx.lineCap = 'round';
+      hctx.lineJoin = 'round';
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const pos = getCanvasCoordinates(e);
+      hctx.lineTo(pos.x, pos.y);
+      hctx.stroke();
+    }
+
+    function stopDraw() {
+      if (isDrawing) {
+        hctx.closePath();
+        isDrawing = false;
+      }
+    }
+
+    hazardCanvas.addEventListener('mousedown', startDraw);
+    hazardCanvas.addEventListener('mousemove', draw);
+    window.addEventListener('mouseup', stopDraw);
+    hazardCanvas.addEventListener('touchstart', startDraw, { passive: false });
+    hazardCanvas.addEventListener('touchmove', draw, { passive: false });
+    window.addEventListener('touchend', stopDraw);
+
+    function clearAnnotationCanvas() {
+      initHazardCanvas();
+      document.getElementById('canvas-empty-state').style.display = 'flex';
+    }
+
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          currentImage = img;
+          hctx.drawImage(img, 0, 0, hazardCanvas.width, hazardCanvas.height);
+          document.getElementById('canvas-empty-state').style.display = 'none';
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // --- 7. DIGITAL SIGNATURE PAD ---
+    const sigCanvas = document.getElementById('signatureCanvas');
+    const sctx = sigCanvas.getContext('2d');
+    let isSigning = false;
+
+    function getSigCoordinates(e) {
+      const rect = sigCanvas.getBoundingClientRect();
+      const scaleX = sigCanvas.width / rect.width;
+      const scaleY = sigCanvas.height / rect.height;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
+      };
+    }
+
+    function startSign(e) {
+      isSigning = true;
+      document.getElementById('sig-placeholder').style.display = 'none';
+      const pos = getSigCoordinates(e);
+      sctx.beginPath();
+      sctx.moveTo(pos.x, pos.y);
+      sctx.strokeStyle = '#0f5238';
+      sctx.lineWidth = 2.5;
+      sctx.lineCap = 'round';
+    }
+
+    function sign(e) {
+      if (!isSigning) return;
+      e.preventDefault();
+      const pos = getSigCoordinates(e);
+      sctx.lineTo(pos.x, pos.y);
+      sctx.stroke();
+    }
+
+    function stopSign() {
+      if (isSigning) {
+        sctx.closePath();
+        isSigning = false;
+      }
+    }
+
+    sigCanvas.addEventListener('mousedown', startSign);
+    sigCanvas.addEventListener('mousemove', sign);
+    window.addEventListener('mouseup', stopSign);
+    sigCanvas.addEventListener('touchstart', startSign, { passive: false });
+    sigCanvas.addEventListener('touchmove', sign, { passive: false });
+    window.addEventListener('touchend', stopSign);
+
+    function clearSignaturePad() {
+      sctx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+      document.getElementById('sig-placeholder').style.display = 'block';
+    }
+
+    function saveSignatureStamp() {
+      alert(currentLang === 'ar' ? 'ØªÙ… ØªØ³Ø¬ÙŠÙ„ ÙˆØªØ´ÙÙŠØ± Ø§Ù„ØªÙˆÙ‚ÙŠØ¹ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ Ø¨Ù†Ø¬Ø§Ø­ Ø¹Ù„Ù‰ Ø§Ù„ØªØµØ±ÙŠØ­ #PTW-8821' : 'Electronic signature sealed and attached to permit #PTW-8821');
+    }
+
+    // --- 8. INCIDENT SUBMISSION & GEOLOCATION ---
+    let selectedIncidentType = 'near_miss';
+
+    function selectIncidentType(type, btn) {
+      selectedIncidentType = type;
+      document.querySelectorAll('#incident-type-selector button').forEach(b => {
+        b.className = "inc-type-btn p-3 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-xs flex flex-col items-center text-center gap-1.5 hover:border-gray-400 transition-all";
+      });
+      btn.className = "inc-type-btn p-3 rounded-xl border-2 border-primary bg-primary/5 text-primary dark:text-emerald-400 font-semibold text-xs flex flex-col items-center text-center gap-1.5 transition-all";
+    }
+
+    function getDeviceLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const locStr = `GPS: ${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)} (Â±${Math.round(pos.coords.accuracy)}m)`;
+            document.getElementById('inc-location-input').value = locStr;
+          },
+          () => {
+            document.getElementById('inc-location-input').value = "24.7136Â° N, 46.6753Â° E (Ø§Ù„Ø±ÙŠØ§Ø¶ - Ù…ÙˆÙ‚Ø¹ Ø§Ù„Ù…ØµÙ†Ø¹)";
+          }
+        );
+      } else {
+        document.getElementById('inc-location-input').value = "24.7136Â° N, 46.6753Â° E (Ø§Ù„Ø±ÙŠØ§Ø¶)";
+      }
+    }
+
+    function submitNewIncident() {
+      const title = document.getElementById('inc-title-input').value.trim();
+      const location = document.getElementById('inc-location-input').value.trim() || 'Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠ';
+      const desc = document.getElementById('inc-desc-input').value.trim();
+
+      if (!title) {
+        alert(currentLang === 'ar' ? 'ÙŠØ±Ø¬Ù‰ ÙƒØªØ§Ø¨Ø© Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ø¨Ù„Ø§Øº' : 'Please enter incident title');
+        return;
+      }
+
+      const newInc = {
+        id: `INC-2026-${Math.floor(100 + Math.random() * 900)}`,
+        type: selectedIncidentType,
+        title,
+        location,
+        time: 'Ø§Ù„Ø¢Ù†'
+      };
+
+      incidentList.unshift(newInc);
+      saveToLocalStorage();
+      renderIncidentHistory();
+
+      // Reset fields
+      document.getElementById('inc-title-input').value = '';
+      document.getElementById('inc-desc-input').value = '';
+      clearAnnotationCanvas();
+
+      alert(currentLang === 'ar' ? `ØªÙ… ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¨Ù„Ø§Øº Ø¨Ù†Ø¬Ø§Ø­ Ø¨Ø±Ù‚Ù…: ${newInc.id} ÙˆØ­ÙØ¸Ù‡ Ù…Ø­Ù„ÙŠØ§Ù‹ ÙÙŠ Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ù…Ø²Ø§Ù…Ù†Ø©.` : `Incident ${newInc.id} logged locally into sync queue.`);
+    }
+
+    function renderIncidentHistory() {
+      const container = document.getElementById('incidents-history-list');
+      container.innerHTML = '';
+      incidentList.forEach(inc => {
+        const div = document.createElement('div');
+        div.className = "p-3 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-between";
+        div.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-red-100 dark:bg-red-950/60 text-danger flex items-center justify-center">
+              <span class="material-symbols-outlined text-base">report_problem</span>
+            </span>
+            <div>
+              <div class="text-xs font-bold text-gray-800 dark:text-gray-200">${inc.title}</div>
+              <div class="text-[11px] text-gray-500">${inc.id} â€¢ ${inc.location}</div>
+            </div>
+          </div>
+          <span class="text-[10px] font-semibold text-gray-400">${inc.time}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // --- 9. AUDIT CHECKLIST EXECUTION ---
+    const auditItems = [
+      { id: 1, title: 'Ø¬Ø§Ù‡Ø²ÙŠØ© Ù…Ø¹Ø¯Ø§Øª Ø§Ù„Ø¥Ø·ÙØ§Ø¡ ÙˆØ®Ø±Ø§Ø·ÙŠÙ… Ø§Ù„Ù…ÙŠØ§Ù‡ ÙˆØµÙ„Ø§Ø­ÙŠØ© ØµÙ…Ø§Ù…Ø§Øª Ø§Ù„Ø¶ØºØ·', status: 'pass' },
+      { id: 2, title: 'Ø§Ù„ØªØ²Ø§Ù… Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø¹Ø§Ù…Ù„ÙŠÙ† Ø¨Ø§Ø±ØªØ¯Ø§Ø¡ Ù…Ø¹Ø¯Ø§Øª Ø§Ù„ÙˆÙ‚Ø§ÙŠØ© Ø§Ù„Ø´Ø®ØµÙŠØ© (PPE)', status: 'pass' },
+      { id: 3, title: 'Ø®Ù„Ùˆ Ù…Ø®Ø§Ø±Ø¬ Ø§Ù„Ø·ÙˆØ§Ø±Ø¦ ÙˆÙ…Ø³Ø§Ø±Ø§Øª Ø§Ù„Ù‡Ø±ÙˆØ¨ Ù…Ù† Ø£ÙŠ Ø¹ÙˆØ§Ø¦Ù‚ Ø£Ùˆ Ù…ÙˆØ§Ø¯ Ù…Ø®Ø²Ù†Ø©', status: 'pass' },
+      { id: 4, title: 'ÙØ­Øµ Ø§Ù„ØªÙˆØµÙŠÙ„Ø§Øª Ø§Ù„ÙƒÙ‡Ø±Ø¨Ø§Ø¦ÙŠØ© Ø§Ù„Ù…Ø¤Ù‚ØªØ© ÙˆÙˆØ¬ÙˆØ¯ Ù‚ÙˆØ§Ø·Ø¹ Ø§Ù„ØªØ³Ø±ÙŠØ¨ Ø§Ù„Ø£Ø±Ø¶ÙŠ (ELCB)', status: 'fail' },
+      { id: 5, title: 'ØªÙˆÙØ± Ø¨Ø·Ø§Ù‚Ø§Øª Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø³Ù„Ø§Ù…Ø© Ù„Ù„Ù…ÙˆØ§Ø¯ Ø§Ù„ÙƒÙŠÙ…ÙŠØ§Ø¦ÙŠØ© (MSDS/SDS)', status: 'pending' }
+    ];
+
+    function renderAuditChecklist() {
+      const container = document.getElementById('audit-checklist-container');
+      container.innerHTML = '';
+      auditItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = "bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3";
+        div.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-gray-900 dark:text-white">Ø¨Ù†Ø¯ #${item.id}</span>
+              ${item.status === 'pass' ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">Ù…Ø·Ø§Ø¨Ù‚ (Pass)</span>' : ''}
+              ${item.status === 'fail' ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-950 text-danger">Ø¹Ø¯Ù… Ù…Ø·Ø§Ø¨Ù‚Ø© (NC)</span>' : ''}
+              ${item.status === 'pending' ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">Ø¨Ø§Ù†ØªØ¸Ø§Ø± Ø§Ù„ÙØ­Øµ</span>' : ''}
+            </div>
+            <p class="text-xs text-gray-700 dark:text-gray-300 font-medium">${item.title}</p>
+          </div>
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            <button onclick="setAuditStatus(${item.id}, 'pass')" class="px-2.5 py-1 rounded-lg ${item.status === 'pass' ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'} text-xs font-semibold flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">check</span>
+              <span>Ù…Ø·Ø§Ø¨Ù‚</span>
+            </button>
+            <button onclick="setAuditStatus(${item.id}, 'fail')" class="px-2.5 py-1 rounded-lg ${item.status === 'fail' ? 'bg-danger text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'} text-xs font-semibold flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">close</span>
+              <span>ØºÙŠØ± Ù…Ø·Ø§Ø¨Ù‚</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function setAuditStatus(id, status) {
+      const target = auditItems.find(a => a.id === id);
+      if (target) target.status = status;
+      renderAuditChecklist();
+    }
+
+    function finalizeAuditInspection() {
+      alert(currentLang === 'ar' ? 'ØªÙ… Ø§Ø¹ØªÙ…Ø§Ø¯ Ù†ØªÙŠØ¬Ø© Ø§Ù„ØªÙØªÙŠØ´ #INS-2026-904 Ø¨Ù†Ø³Ø¨Ø© Ø§Ù…ØªØ«Ø§Ù„ 80%ØŒ ÙˆØªÙ… ØªØµØ¯ÙŠØ± ØªÙ‚Ø±ÙŠØ± Ø§Ù„ØªØ¯Ù‚ÙŠÙ‚ Ø¨Ù†Ø¬Ø§Ø­.' : 'Audit #INS-2026-904 finalized with 80% compliance score.');
+    }
+
+    // --- 10. AUTO-PDF GENERATION ENGINE (jsPDF) ---
+    function downloadPermitPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Header Banner
+      doc.setFillColor(15, 82, 56); // #0f5238
+      doc.rect(0, 0, 210, 35, 'F');
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(18);
+      doc.text("EHS Track Pro - Official Work Permit", 14, 18);
+      doc.setFontSize(10);
+      doc.text("Permit to Work (PTW) â€¢ Ref: #PTW-8821", 14, 26);
+      doc.text(new Date().toLocaleDateString(), 180, 26);
+
+      // Metadata
+      doc.setTextColor(20, 29, 35);
+      doc.setFontSize(12);
+      doc.text("1. General Information", 14, 48);
+      doc.setFontSize(9);
+      doc.text("Type: Hot Work Permit (Welding & Thermal Cutting)", 14, 56);
+      doc.text("Location: Fuel Tank Farm Sector 4", 14, 62);
+      doc.text("Contractor: Advanced Engineering Construction Ltd.", 14, 68);
+      doc.text("Lead Auditor: Eng. Sarah Al-Mansoor", 14, 74);
+
+      // Gas Test Table
+      doc.setFillColor(240, 244, 248);
+      doc.rect(14, 82, 182, 35, 'F');
+      doc.setFontSize(11);
+      doc.text("2. Atmospheric & Gas Testing Verification", 20, 92);
+      doc.setFontSize(9);
+      doc.text("Oxygen Level (O2): 20.9% (Normal: 19.5% - 23.5%) -> PASS", 20, 100);
+      doc.text("Flammable Gases (LEL): 0.0% (Limit: < 5%) -> PASS", 20, 106);
+      doc.text("Carbon Monoxide (CO): 0.0 ppm -> PASS", 20, 112);
+
+      // Signature attachment
+      doc.text("3. Authorized Electronic Signature & Seal", 14, 130);
+      const sigData = sigCanvas.toDataURL("image/png");
+      doc.addImage(sigData, 'PNG', 14, 136, 70, 25);
+      doc.setFontSize(8);
+      doc.setTextColor(100, 100, 100);
+      doc.text("Tamper-evident cryptographic signature verified on-device.", 14, 168);
+
+      // Save file
+      doc.save("EHS-Track-Pro-Permit-PTW-8821.pdf");
+    }
+
+    function exportCAPAToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFillColor(29, 53, 87); // Slate Blue
+      doc.rect(0, 0, 210, 32, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.text("EHS Track Pro - CAPA Status Report", 14, 16);
+      doc.setFontSize(10);
+      doc.text("Corrective & Preventive Action Tracking Registry", 14, 24);
+
+      let y = 45;
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(10);
+      capaList.forEach((c, i) => {
+        doc.text(`${i + 1}. [${c.id}] ${c.title}`, 14, y);
+        doc.setFontSize(8);
+        doc.setTextColor(100, 100, 100);
+        doc.text(`Assignee: ${c.assignee} | Due: ${c.date} | Status: ${c.status.toUpperCase()} | Priority: ${c.priority}`, 18, y + 5);
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        y += 14;
+      });
+
+      doc.save("EHS-CAPA-Registry-Export.pdf");
+    }
+
+    // --- INITIALIZATION ON LOAD ---
+    window.addEventListener('DOMContentLoaded', () => {
+      initHazardCanvas();
+      renderCAPAList('all');
+      renderIncidentHistory();
+      renderAuditChecklist();
+      
+      const savedTheme = localStorage.getItem('ehs_theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-icon').innerText = 'light_mode';
+      }
+    });
+  </script>
+</body>
+</html>
+

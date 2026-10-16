@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar" class="light">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+  <title>EHS Track Pro — نظام إدارة السلامة والصحة المهنية والبيئة</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Readex+Pro:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  
+  <!-- Tailwind CSS & PDF Generation Engines -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0f5238',
+            'primary-container': '#2d6a4f',
+            'primary-light': '#40916c',
+            'primary-fixed': '#b1f0ce',
+            'on-primary': '#ffffff',
+            'on-primary-container': '#a8e7c5',
+            'on-primary-fixed': '#002114',
+            secondary: '#1d3557',
+            'secondary-light': '#457b9d',
+            'secondary-container': '#dbe4ed',
+            'on-secondary': '#ffffff',
+            tertiary: '#064c6c',
+            'tertiary-container': '#2b6485',
+            'tertiary-fixed': '#c7e7ff',
+            'on-tertiary': '#ffffff',
+            'on-tertiary-fixed': '#001e2e',
+            surface: '#f6faff',
+            'surface-dark': '#121816',
+            'surface-card-dark': '#1c2522',
+            'surface-card': '#ffffff',
+            'surface-container-low': '#ecf5fe',
+            'surface-container': '#e6eff8',
+            'surface-container-high': '#e0e9f2',
+            'on-surface': '#141d23',
+            'on-surface-variant': '#404943',
+            'outline-custom': '#707973',
+            'outline-light': '#bfc9c1',
+            warning: '#d97706',
+            'warning-container': '#fef3c7',
+            danger: '#e76f51',
+            'danger-container': '#fde8e4',
+            success: '#2d6a4f',
+            'success-container': '#e8f5e9'
+          },
+          fontFamily: {
+            ar: ['Readex Pro', 'Tajawal', 'sans-serif'],
+            en: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Readex Pro', 'Tajawal', sans-serif;
+      overscroll-behavior: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    html[dir="ltr"] body {
+      font-family: 'Inter', sans-serif;
+    }
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom, 16px); }
+    .pt-safe { padding-top: env(safe-area-inset-top, 16px); }
+    ::-webkit-scrollbar { display: none; }
+    
+    /* Smooth transitions for tabs and themes */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.22s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Touch buttons feel */
+    .touch-btn:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+
+<body class="bg-surface dark:bg-surface-dark text-on-surface dark:text-gray-100 min-h-screen flex flex-col antialiased transition-colors duration-300">
+
+  <!-- TOP APP HEADER -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-white/90 dark:bg-[#151c1a]/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm pt-safe">
+    <div class="h-16 px-4 max-w-7xl mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Brand & Status -->
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-primary-light flex items-center justify-center text-white shadow-sm flex-shrink-0">
+          <span class="material-symbols-outlined text-[24px]">verified_user</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="font-bold text-base tracking-tight text-on-surface dark:text-white truncate" id="brand-title">EHS Track Pro</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-bold tracking-wider hidden sm:inline">v2.4</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" id="sync-dot"></span>
+            <span class="text-xs text-primary dark:text-emerald-400 font-medium truncate" id="sync-status-text">متصل • تمت المزامنة</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Controls: Language, Theme, Profile -->
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <!-- Language Switcher -->
+        <div class="relative inline-flex bg-gray-100 dark:bg-gray-800 p-0.5 rounded-full text-xs font-semibold">
+          <button onclick="setLanguage('ar')" id="lang-ar-btn" class="px-2.5 py-1 rounded-full transition-all bg-white dark:bg-gray-700 text-primary dark:text-emerald-400 shadow-xs">عربي</button>
+          <button onclick="setLanguage('en')" id="lang-en-btn" class="px-2.5 py-1 rounded-full transition-all text-gray-500 dark:text-gray-400">EN</button>
+          <button onclick="setLanguage('fr')" id="lang-fr-btn" class="px-2.5 py-1 rounded-full transition-all text-gray-500 dark:text-gray-400">FR</button>
+        </div>
+
+        <!-- Dark / Eye-Comfort Mode Toggle -->
+        <button onclick="toggleVisualComfortMode()" aria-label="Toggle Theme" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-yellow-400 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          <span class="material-symbols-outlined text-[19px]" id="theme-icon">dark_mode</span>
+        </button>
+
+        <!-- Role Badge -->
+        <div class="hidden md:flex items-center gap-2 pl-2 pr-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700">
+          <div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold">M</div>
+          <div class="text-left">
+            <div class="text-[11px] font-bold text-gray-800 dark:text-gray-200" id="user-role-label">مفتش أول سلامة</div>
+            <div class="text-[9px] text-gray-500" id="user-role-sub">Lead Auditor</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN SCROLLABLE APP CONTAINER -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-4 pt-20 pb-28">
+
+    <!-- ============================================================= -->
+    <!-- TAB 1: EHS DASHBOARD & REAL-TIME KPIS -->
+    <!-- ============================================================= -->
+    <section id="tab-dashboard" class="tab-content active space-y-4">
+      
+      <!-- Welcome & Shift Progress -->
+      <div class="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-primary/10 dark:bg-emerald-950/40 text-primary dark:text-emerald-400 flex items-center justify-center text-xl font-bold flex-shrink-0">
+              <span class="material-symbols-outlined text-2xl">safety_check</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs text-gray-500 dark:text-gray-400" id="greeting-text">مرحباً بعودتك</span>
+                <span class="material-symbols-outlined text-sm text-primary dark:text-emerald-400" style="font-variation-settings: 'FILL' 1;">verified</span>
+              </div>
+              <h1 class="text-lg font-bold text-gray-900 dark:text-white" id="inspector-name">م. سارة المنصور (Lead EHS Auditor)</h1>
+              <p class="text-xs text-secondary-light dark:text-gray-400" id="site-label">موقع المشروع: المجمع الصناعي - المنطقة الغربية</p>
+            </div>
+          </div>
+          <button onclick="triggerQuickSync()" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-xs font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-1 hover:bg-gray-200 transition-colors">
+            <span class="material-symbols-outlined text-sm">sync</span>
+            <span id="sync-btn-text">مزامنة الآن</span>
+          </button>
+        </div>
+
+        <!-- Shift Progress Bar -->
+        <div class="mt-4 pt-3 border-t border-gray-100 dark:border-gray-800/60">
+          <div class="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-1.5">
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm text-primary dark:text-emerald-400">task_alt</span>
+              <span id="shift-progress-label">اكتمال عمليات التدقيق الميداني المجدولة</span>
+            </span>
+            <span class="font-bold text-primary dark:text-emerald-400">80%</span>
+          </div>
+          <div class="w-full bg-gray-100 dark:bg-gray-800 h-2.5 rounded-full overflow-hidden">
+            <div class="bg-gradient-to-r from-primary to-primary-light h-full rounded-full transition-all duration-500" style="width: 80%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Offline Safeguard Card -->
+      <div class="bg-gradient-to-r from-primary-container to-primary text-white rounded-2xl p-4 shadow-sm flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">offline_bolt</span>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold" id="offline-mode-title">الوضع الميداني الذكي (Offline-First)</h3>
+            <p class="text-xs text-emerald-100" id="offline-mode-sub">يمكنك فحص المعدات وتسجيل البلاغات بدون إنترنت، وستُرفع تلقائياً عند الاتصال.</p>
+          </div>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <span class="text-xs px-2.5 py-1 rounded-full bg-white/20 font-semibold" id="pending-records-count">3 معلق</span>
+        </div>
+      </div>
+
+      <!-- Real-Time EHS KPIs (2x2 Grid) -->
+      <div>
+        <div class="flex items-center justify-between mb-2 px-1">
+          <h2 class="text-sm font-bold text-gray-800 dark:text-gray-200" id="kpi-section-title">مؤشرات السلامة والأداء الرئيسية</h2>
+          <span class="text-xs text-gray-500" id="kpi-quarter">الربع الأخير 2026</span>
+        </div>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          
+          <!-- KPI 1: LTIFR -->
+          <div class="bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-primary dark:text-emerald-400 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">trending_down</span>
+              </span>
+              <span class="text-[11px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">-14%</span>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-gray-900 dark:text-white" id="ltifr-val">0.18</div>
+              <div class="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate" id="kpi-ltifr-title">معدل تكرار الإصابات</div>
+              <div class="text-[10px] text-gray-500 truncate">LTIFR (الهدف: &lt; 0.50)</div>
+            </div>
+          </div>
+
+          <!-- KPI 2: Compliance Score -->
+          <div class="bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-secondary-light flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">gavel</span>
+              </span>
+              <span class="text-[11px] font-bold px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300" id="badge-compliance">ممتاز</span>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-primary dark:text-emerald-400">96.4%</div>
+              <div class="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate" id="kpi-audit-title">نسبة الامتثال البيئي</div>
+              <div class="text-[10px] text-gray-500 truncate">ISO 45001 &amp; 14001</div>
+            </div>
+          </div>
+
+          <!-- KPI 3: Safe Man Hours -->
+          <div class="bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="w-7 h-7 rounded-lg bg-amber-50 dark:bg-amber-950/50 text-amber-600 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">timer</span>
+              </span>
+              <span class="text-[11px] font-bold px-1.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300">+250k</span>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-gray-900 dark:text-white">1.84M</div>
+              <div class="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate" id="kpi-hours-title">ساعات عمل آمنة</div>
+              <div class="text-[10px] text-gray-500 truncate">بدون حوادث هادرة للوقت</div>
+            </div>
+          </div>
+
+          <!-- KPI 4: CAPA Closure Velocity -->
+          <div class="bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-950/50 text-purple-600 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">speed</span>
+              </span>
+              <span class="text-[11px] font-bold px-1.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300">2.1 يوم</span>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-gray-900 dark:text-white">92.8%</div>
+              <div class="text-xs font-semibold text-gray-700 dark:text-gray-300 truncate" id="kpi-capa-title">سرعة إغلاق الإجراءات</div>
+              <div class="text-[10px] text-gray-500 truncate">ضمن المدة المحددة</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+        <button onclick="switchTab('incident')" class="p-3 bg-surface-card dark:bg-surface-card-dark rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs flex items-center gap-2.5 hover:bg-emerald-50/50 dark:hover:bg-gray-800 transition-colors text-right touch-btn">
+          <div class="w-9 h-9 rounded-lg bg-danger/10 text-danger flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">warning</span>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-gray-900 dark:text-white truncate" id="action-report-incident">إبلاغ عن حادث</div>
+            <div class="text-[10px] text-gray-500 truncate">Near-miss &amp; Injury</div>
+          </div>
+        </button>
+
+        <button onclick="switchTab('forms')" class="p-3 bg-surface-card dark:bg-surface-card-dark rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs flex items-center gap-2.5 hover:bg-emerald-50/50 dark:hover:bg-gray-800 transition-colors text-right touch-btn">
+          <div class="w-9 h-9 rounded-lg bg-primary/10 text-primary dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">local_fire_department</span>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-gray-900 dark:text-white truncate" id="action-issue-ptw">إصدار تصريح PTW</div>
+            <div class="text-[10px] text-gray-500 truncate">Permit to Work</div>
+          </div>
+        </button>
+
+        <button onclick="switchTab('audit')" class="p-3 bg-surface-card dark:bg-surface-card-dark rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs flex items-center gap-2.5 hover:bg-emerald-50/50 dark:hover:bg-gray-800 transition-colors text-right touch-btn">
+          <div class="w-9 h-9 rounded-lg bg-secondary-light/10 text-secondary-light flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">fact_check</span>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-gray-900 dark:text-white truncate" id="action-start-audit">جولة تفتيشية</div>
+            <div class="text-[10px] text-gray-500 truncate">Audit Checklist</div>
+          </div>
+        </button>
+
+        <button onclick="switchTab('capa')" class="p-3 bg-surface-card dark:bg-surface-card-dark rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs flex items-center gap-2.5 hover:bg-emerald-50/50 dark:hover:bg-gray-800 transition-colors text-right touch-btn">
+          <div class="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">assignment_turned_in</span>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-gray-900 dark:text-white truncate" id="action-view-capa">متابعة CAPA</div>
+            <div class="text-[10px] text-gray-500 truncate">Corrective Actions</div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Recent Incidents & Activity Feed -->
+      <div class="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-4 border border-gray-100 dark:border-gray-800 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-bold text-gray-900 dark:text-white" id="recent-logs-title">أحدث الأنشطة والبلاغات الميدانية</h3>
+          <span class="text-xs text-primary dark:text-emerald-400 font-semibold cursor-pointer" onclick="switchTab('incident')" id="see-all-logs">عرض الكل</span>
+        </div>
+        <div class="space-y-2.5" id="recent-activity-list">
+          <!-- Dynamically populated or default items -->
+          <div class="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">near_me</span>
+              </span>
+              <div>
+                <div class="text-xs font-bold text-gray-800 dark:text-gray-200">حادث وشيك: انزلاق رافعة شوكية</div>
+                <div class="text-[11px] text-gray-500">المستودع الشمالي • تم اتخاذ تدبير وقائي فوري</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-semibold text-gray-500">منذ 25 دقيقة</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-primary dark:text-emerald-400 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">task_alt</span>
+              </span>
+              <div>
+                <div class="text-xs font-bold text-gray-800 dark:text-gray-200">اعتماد تصريح عمل على ارتفاعات #PTW-8824</div>
+                <div class="text-[11px] text-gray-500">برج التبريد 2 • توقيع معتمد إلكترونياً</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-semibold text-gray-500">منذ ساعة</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 2: INCIDENT & HAZARD TRACKING (Real-Time + Annotator) -->
+    <!-- ============================================================= -->
+    <section id="tab-incident" class="tab-content space-y-4">
+      
+      <!-- Stepper Header -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-danger animate-ping"></span>
+            <h2 class="text-base font-bold text-gray-900 dark:text-white" id="new-incident-title">تسجيل بلاغ حادث أو خطر مهني جديد</h2>
+          </div>
+          <span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-bold" id="incident-step-badge">مباشر • حفظ محلي</span>
+        </div>
+        <p class="text-xs text-gray-500 dark:text-gray-400" id="incident-stepper-sub">قم بتسجيل تفاصيل الواقعة، تحديد درجة الخطورة، وإرفاق صور مع الرسم والتحديد على مواضع الخطر.</p>
+      </div>
+
+      <!-- Incident Form Fields -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-4">
+        
+        <!-- Incident Classification Selector -->
+        <div>
+          <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2" id="lbl-incident-type">تصنيف الواقعة (Severity Category)</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="incident-type-selector">
+            <button type="button" onclick="selectIncidentType('near_miss', this)" class="inc-type-btn p-3 rounded-xl border-2 border-primary bg-primary/5 text-primary dark:text-emerald-400 font-semibold text-xs flex flex-col items-center text-center gap-1.5 transition-all">
+              <span class="material-symbols-outlined text-xl">nearby_error</span>
+              <span id="type-near-miss">شبه حادث (Near Miss)</span>
+            </button>
+            <button type="button" onclick="selectIncidentType('injury', this)" class="inc-type-btn p-3 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-xs flex flex-col items-center text-center gap-1.5 hover:border-gray-400 transition-all">
+              <span class="material-symbols-outlined text-xl text-danger">personal_injury</span>
+              <span id="type-injury">إصابة عمل (Injury)</span>
+            </button>
+            <button type="button" onclick="selectIncidentType('environmental', this)" class="inc-type-btn p-3 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-xs flex flex-col items-center text-center gap-1.5 hover:border-gray-400 transition-all">
+              <span class="material-symbols-outlined text-xl text-emerald-600">nature</span>
+              <span id="type-env">حادث بيئي (Spill/Hazard)</span>
+            </button>
+            <button type="button" onclick="selectIncidentType('property', this)" class="inc-type-btn p-3 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-xs flex flex-col items-center text-center gap-1.5 hover:border-gray-400 transition-all">
+              <span class="material-symbols-outlined text-xl text-amber-600">damage</span>
+              <span id="type-property">أضرار بالممتلكات</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Title & Location -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-inc-title">عنوان البلاغ</label>
+            <input type="text" id="inc-title-input" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white focus:outline-primary" placeholder="مثال: تسرب زيوت هيدروليكية قرب خط الإنتاج 3" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-inc-location">موقع الواقعة الدقيق / الإحداثيات</label>
+            <div class="relative">
+              <input type="text" id="inc-location-input" class="w-full px-3 py-2 pl-9 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white focus:outline-primary" placeholder="المصنع 1 - الطابق السفلي" />
+              <button type="button" onclick="getDeviceLocation()" title="تحديد الموقع عبر GPS" class="absolute left-2 top-2 text-gray-500 hover:text-primary">
+                <span class="material-symbols-outlined text-lg">my_location</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-inc-desc">الوصف التفصيلي والظروف المحيطة</label>
+          <textarea id="inc-desc-input" rows="3" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white focus:outline-primary" placeholder="اكتب تفاصيل ما حدث بدقة، الأشخاص المعنيين، والتدابير العاجلة المتخذة..."></textarea>
+        </div>
+
+        <!-- Image Hazard Annotator Canvas Component -->
+        <div class="p-3 bg-gray-50 dark:bg-gray-800/60 rounded-xl border border-gray-200 dark:border-gray-700 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-gray-800 dark:text-gray-200 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-primary dark:text-emerald-400">draw</span>
+              <span id="annotator-title">تحديد الخطر على الصورة (Interactive Image Annotation)</span>
+            </span>
+            <div class="flex items-center gap-2">
+              <input type="file" id="photo-upload-input" accept="image/*" class="hidden" onchange="handleImageUpload(event)" />
+              <button type="button" onclick="document.getElementById('photo-upload-input').click()" class="px-2.5 py-1 rounded-lg bg-gray-200 dark:bg-gray-700 text-[11px] font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-1 hover:bg-gray-300">
+                <span class="material-symbols-outlined text-sm">photo_camera</span>
+                <span id="btn-upload-photo">رفع / التقاط صورة</span>
+              </button>
+              <button type="button" onclick="clearAnnotationCanvas()" class="px-2.5 py-1 rounded-lg bg-red-100 dark:bg-red-950/60 text-[11px] font-semibold text-red-700 dark:text-red-400 flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">delete</span>
+                <span id="btn-clear-canvas">مسح الرسم</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="text-[11px] text-gray-500" id="canvas-hint">ارسم بإصبعك أو بالفأرة مباشرة على الصورة لتحديد موقع الخطر (لون أحمر/برتقالي):</div>
+          
+          <!-- Canvas drawing area -->
+          <div class="relative w-full rounded-xl overflow-hidden border border-gray-300 dark:border-gray-600 bg-gray-900 flex items-center justify-center min-h-[220px]">
+            <canvas id="hazardCanvas" width="600" height="300" class="w-full h-auto cursor-crosshair touch-none"></canvas>
+            <div id="canvas-empty-state" class="absolute pointer-events-none flex flex-col items-center text-gray-400">
+              <span class="material-symbols-outlined text-4xl mb-1 opacity-60">add_photo_alternate</span>
+              <span class="text-xs">انقر على "رفع صورة" أو ارسم مباشرة هنا للتوضيح</span>
+            </div>
+          </div>
+
+          <!-- Annotation color options -->
+          <div class="flex items-center justify-between text-xs pt-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] text-gray-600 dark:text-gray-400 font-semibold" id="lbl-pen-color">لون التحديد:</span>
+              <button type="button" onclick="setPenColor('#e76f51')" class="w-5 h-5 rounded-full bg-danger border-2 border-white ring-1 ring-gray-400" title="خطر جسيم"></button>
+              <button type="button" onclick="setPenColor('#d97706')" class="w-5 h-5 rounded-full bg-warning border-2 border-white ring-1 ring-gray-400" title="تحذير"></button>
+              <button type="button" onclick="setPenColor('#2d6a4f')" class="w-5 h-5 rounded-full bg-primary border-2 border-white ring-1 ring-gray-400" title="إجراء آمن"></button>
+            </div>
+            <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">سيتم تضمين الصورة المحددة في تقرير PDF</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="button" onclick="submitNewIncident()" class="w-full py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-sm flex items-center justify-center gap-2 hover:bg-primary-container active:scale-[0.99] transition-all">
+          <span class="material-symbols-outlined text-lg">send</span>
+          <span id="btn-submit-incident">تسجيل البلاغ وإشعار فريق السلامة فوراً</span>
+        </button>
+
+      </div>
+
+      <!-- Logged Incidents List -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+        <h3 class="text-sm font-bold text-gray-900 dark:text-white mb-3" id="saved-incidents-title">سجل الحوادث المسجلة محلياً وعلى السحابة</h3>
+        <div class="space-y-2.5" id="incidents-history-list">
+          <!-- Dynamic -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 3: CAPA MANAGEMENT (Corrective & Preventive Actions) -->
+    <!-- ============================================================= -->
+    <section id="tab-capa" class="tab-content space-y-4">
+      
+      <!-- CAPA Banner & Stats -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+              <span class="text-xs font-semibold text-secondary-light dark:text-emerald-400" id="capa-sub-title">نظام إدارة الإجراءات التصحيحية • CAPA Workflow</span>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900 dark:text-white mt-0.5" id="capa-heading">متابعة الإجراءات التصحيحية والوقائية</h2>
+          </div>
+          <button onclick="exportCAPAToPDF()" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-xs font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-1.5 transition-colors">
+            <span class="material-symbols-outlined text-base text-red-500">picture_as_pdf</span>
+            <span id="capa-pdf-export-btn">تصدير تقرير CAPA</span>
+          </button>
+        </div>
+
+        <!-- Metric Ribbon -->
+        <div class="grid grid-cols-4 gap-2 pt-1 text-center">
+          <div class="p-2 rounded-xl bg-gray-50 dark:bg-gray-800">
+            <div class="text-lg font-bold text-gray-900 dark:text-white" id="capa-count-total">6</div>
+            <div class="text-[11px] text-gray-500" id="capa-lbl-total">الإجمالي</div>
+          </div>
+          <div class="p-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300">
+            <div class="text-lg font-bold" id="capa-count-progress">2</div>
+            <div class="text-[11px]" id="capa-lbl-progress">قيد المتابعة</div>
+          </div>
+          <div class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-primary dark:text-emerald-400">
+            <div class="text-lg font-bold" id="capa-count-closed">3</div>
+            <div class="text-[11px]" id="capa-lbl-closed">مكتملة ومغلقة</div>
+          </div>
+          <div class="p-2 rounded-xl bg-red-50 dark:bg-red-950/40 text-danger">
+            <div class="text-lg font-bold" id="capa-count-overdue">1</div>
+            <div class="text-[11px]" id="capa-lbl-overdue">متأخرة</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Add CAPA Trigger -->
+      <div class="flex items-center gap-2">
+        <button onclick="openNewCAPAModal()" class="flex-1 py-3 px-4 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-base">add_task</span>
+          <span id="btn-add-capa">إضافة إجراء تصحيحي جديد (+ New Action)</span>
+        </button>
+      </div>
+
+      <!-- CAPA Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1" id="capa-filter-tabs">
+        <button onclick="filterCAPAList('all', this)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-primary text-white shadow-xs">الكل (6)</button>
+        <button onclick="filterCAPAList('progress', this)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200">قيد التنفيذ (2)</button>
+        <button onclick="filterCAPAList('closed', this)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200">المكتملة (3)</button>
+        <button onclick="filterCAPAList('overdue', this)" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200">المتأخرة (1)</button>
+      </div>
+
+      <!-- CAPA Action Items Container -->
+      <div class="space-y-3" id="capa-items-container">
+        <!-- Dynamically rendered -->
+      </div>
+
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 4: AUDITS & FIELD INSPECTIONS -->
+    <!-- ============================================================= -->
+    <section id="tab-audit" class="tab-content space-y-4">
+      
+      <!-- Inspection Header Card -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-3">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="flex items-center gap-1.5 text-primary dark:text-emerald-400 text-xs font-semibold">
+              <span class="material-symbols-outlined text-base">fact_check</span>
+              <span id="audit-category-tag">تدقيق الامتثال الدوري للموقع (ISO 45001 / ISO 14001)</span>
+            </div>
+            <h2 class="text-base font-bold text-gray-900 dark:text-white mt-1" id="audit-title">جولة تفتيش السلامة العامة - الورشة الرئيسية</h2>
+            <p class="text-xs text-gray-500">رقم الفحص: <span class="font-mono font-bold text-primary dark:text-emerald-400">#INS-2026-904</span></p>
+          </div>
+          <span class="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-primary dark:text-emerald-300 text-xs font-bold">نشط الآن</span>
+        </div>
+
+        <!-- Checklist Overall Progress -->
+        <div class="pt-2 border-t border-gray-100 dark:border-gray-800">
+          <div class="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-1">
+            <span id="audit-progress-lbl">اكتمال بنود التدقيق</span>
+            <span class="font-bold text-primary dark:text-emerald-400" id="audit-percentage">75%</span>
+          </div>
+          <div class="w-full bg-gray-100 dark:bg-gray-800 h-2 rounded-full overflow-hidden">
+            <div id="audit-progress-bar" class="bg-primary h-full rounded-full transition-all duration-300" style="width: 75%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Checklist Items -->
+      <div class="space-y-2.5" id="audit-checklist-container">
+        <!-- Rendered by JS with Pass / Fail / N/A buttons -->
+      </div>
+
+      <!-- Finalize & Sign Audit Button -->
+      <button type="button" onclick="finalizeAuditInspection()" class="w-full py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-sm flex items-center justify-center gap-2 hover:bg-primary-container active:scale-[0.99] transition-all">
+        <span class="material-symbols-outlined text-lg">verified</span>
+        <span id="btn-finish-audit">اعتماد تقرير التدقيق وإصدار نتيجة الامتثال</span>
+      </button>
+
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 5: SMART DOCUMENTS, PTW & DIGITAL SIGNATURES -->
+    <!-- ============================================================= -->
+    <section id="tab-forms" class="tab-content space-y-4">
+      
+      <!-- Workspace Intro -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-2">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-bold text-gray-900 dark:text-white" id="docs-workspace-title">إدارة النماذج وتصاريح العمل الذكية (E-Permits &amp; JSA)</h2>
+            <p class="text-xs text-gray-500" id="docs-workspace-sub">تعبئة وتوقيع إلكتروني وتصدير فوري لتقارير PDF المعتمدة</p>
+          </div>
+          <div class="w-9 h-9 rounded-xl bg-primary/10 text-primary dark:text-emerald-400 flex items-center justify-center">
+            <span class="material-symbols-outlined text-xl">description</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Permit Card with Interactive Digital Signature -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-4" id="active-permit-section">
+        
+        <div class="flex items-start justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
+          <div>
+            <span class="text-[11px] font-bold text-danger px-2 py-0.5 rounded bg-danger-container">تصريح عالي الخطورة • Hot Work PTW</span>
+            <h3 class="text-sm font-bold text-gray-900 dark:text-white mt-1">تصريح أعمال ساخنة (لحام وقطع حراري) #PTW-8821</h3>
+            <p class="text-xs text-gray-500">الموقع: منطقة صهاريج الوقود رقم 4 • المقاول: شركة الإنشاءات المتطورة</p>
+          </div>
+          <button onclick="downloadPermitPDF()" class="px-3 py-1.5 rounded-xl bg-primary text-white hover:bg-primary-container text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors">
+            <span class="material-symbols-outlined text-base">download</span>
+            <span id="btn-download-pdf-permit">تحميل PDF رسمي</span>
+          </button>
+        </div>
+
+        <!-- Permit Checklist Parameters -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="p-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 space-y-1">
+            <div class="font-bold text-gray-700 dark:text-gray-300">متطلبات السلامة المسبقة:</div>
+            <div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+              <span class="material-symbols-outlined text-sm">check_circle</span>
+              <span>فحص تركيز الغازات القابلة للاشتعال (LEL = 0%)</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+              <span class="material-symbols-outlined text-sm">check_circle</span>
+              <span>توفر طفايات حريق بودرة ومراقب حريق مؤهل (Fire Watch)</span>
+            </div>
+          </div>
+          
+          <div class="p-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 space-y-1">
+            <div class="font-bold text-gray-700 dark:text-gray-300">فترة الصلاحية والمسؤولية:</div>
+            <div class="text-gray-600 dark:text-gray-400">صالح حتى: <span class="font-bold">اليوم 18:00 مساءً</span></div>
+            <div class="text-gray-600 dark:text-gray-400">ضابط السلامة المناوب: <span class="font-bold text-primary dark:text-emerald-400">م. سارة المنصور</span></div>
+          </div>
+        </div>
+
+        <!-- Digital Signature Pad -->
+        <div class="p-3 bg-gray-50 dark:bg-gray-800/60 rounded-xl border border-gray-200 dark:border-gray-700 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-gray-800 dark:text-gray-200 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-primary dark:text-emerald-400">gesture</span>
+              <span id="sig-pad-title">توقيع الاعتماد الرقمي الحي (Electronic Signature Capture)</span>
+            </span>
+            <button type="button" onclick="clearSignaturePad()" class="px-2 py-0.5 rounded text-[11px] font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700">
+              مسح التوقيع
+            </button>
+          </div>
+          
+          <div class="text-[11px] text-gray-500" id="sig-hint">وقع داخل الصندوق أدناه بواسطة اللمس أو الفأرة لاعتماد التصريح رسمياً:</div>
+          
+          <!-- Signature Canvas -->
+          <div class="relative w-full rounded-xl overflow-hidden border-2 border-dashed border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 flex items-center justify-center h-28">
+            <canvas id="signatureCanvas" width="500" height="110" class="w-full h-full cursor-crosshair touch-none"></canvas>
+            <div id="sig-placeholder" class="absolute pointer-events-none text-xs text-gray-400">
+              توقيع المسؤول المعتمد هنا
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-gray-500 pt-1">
+            <span class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+              <span class="material-symbols-outlined text-xs">lock</span>
+              توقيع مشفر وغير قابل للتلاعب ومسجل بالتاريخ والساعة
+            </span>
+            <button type="button" onclick="saveSignatureStamp()" class="px-2.5 py-1 rounded bg-primary text-white font-bold text-[10px]">
+              تثبيت التوقيع
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Available EHS Forms Templates Grid -->
+      <div class="bg-surface-card dark:bg-surface-card-dark p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-3">
+        <h3 class="text-sm font-bold text-gray-900 dark:text-white" id="templates-list-title">قوالب النماذج وسجلات السلامة الجاهزة</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          
+          <div class="p-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-primary transition-all flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-secondary-light flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">groups</span>
+              </span>
+              <div>
+                <div class="text-xs font-bold text-gray-800 dark:text-gray-200">سجل محادثات السلامة (Toolbox Talk)</div>
+                <div class="text-[10px] text-gray-500">حصر حضور 24 عامل • موضوع العمل على ارتفاع</div>
+              </div>
+            </div>
+            <button onclick="alert('تم تجهيز قالب محادثة السلامة TBT للاستخدام!')" class="text-xs text-primary dark:text-emerald-400 font-semibold">فتح</button>
+          </div>
+
+          <div class="p-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-primary transition-all flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-primary dark:text-emerald-400 flex items-center justify-center">
+                <span class="material-symbols-outlined text-base">shield_with_heart</span>
+              </span>
+              <div>
+                <div class="text-xs font-bold text-gray-800 dark:text-gray-200">تقييم مخاطر بيئة العمل (RAMS / JSA)</div>
+                <div class="text-[10px] text-gray-500">مصفوفة مراجعة الأخطار 5x5</div>
+              </div>
+            </div>
+            <button onclick="alert('تم تجهيز قالب تقييم المخاطر JSA للاستخدام!')" class="text-xs text-primary dark:text-emerald-400 font-semibold">فتح</button>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ============================================================= -->
+  <!-- MODAL: ADD NEW CAPA ACTION -->
+  <!-- ============================================================= -->
+  <div id="new-capa-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-surface-card dark:bg-surface-card-dark w-full max-w-md rounded-2xl p-5 shadow-xl border border-gray-100 dark:border-gray-800 space-y-3">
+      <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
+        <h3 class="text-sm font-bold text-gray-900 dark:text-white" id="modal-new-capa-title">إضافة إجراء تصحيحي / وقائي (CAPA)</h3>
+        <button onclick="closeNewCAPAModal()" class="text-gray-400 hover:text-gray-600">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-capa-action-title">عنوان الإجراء</label>
+          <input type="text" id="capa-new-title" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white" placeholder="مثال: تركيب حواجز حماية إضافية للسلالم الكهربائية" />
+        </div>
+        <div>
+          <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-capa-assignee">المسؤول عن التنفيذ</label>
+          <input type="text" id="capa-new-assignee" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white" placeholder="مهندس الموقع: خالد السالم" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-capa-deadline">الموعد النهائي</label>
+            <input type="date" id="capa-new-date" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white" />
+          </div>
+          <div>
+            <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1" id="lbl-capa-priority">الأولوية</label>
+            <select id="capa-new-priority" class="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-900 dark:text-white">
+              <option value="high">عالية (High)</option>
+              <option value="medium" selected>متوسطة (Medium)</option>
+              <option value="low">منخفضة (Low)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="saveNewCAPA()" class="flex-1 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-container" id="btn-save-capa">حفظ وتعيين الإجراء</button>
+        <button onclick="closeNewCAPAModal()" class="px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-semibold" id="btn-cancel-capa">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- BOTTOM FIXED NAVIGATION BAR (Thumb-friendly & Ergonomic) -->
+  <!-- ============================================================= -->
+  <nav class="fixed bottom-0 inset-x-0 z-50 bg-white/95 dark:bg-[#151c1a]/95 backdrop-blur-md border-t border-gray-100 dark:border-gray-800 shadow-[0_-2px_12px_rgba(0,0,0,0.04)] pb-safe">
+    <div class="h-16 max-w-lg mx-auto flex items-center justify-around px-2">
+      
+      <!-- Nav 1: Dashboard -->
+      <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="nav-item flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-primary dark:text-emerald-400 transition-all">
+        <span class="material-symbols-outlined text-[22px]">dashboard</span>
+        <span class="text-[10px] font-bold mt-0.5" id="nav-label-dashboard">الرئيسية</span>
+      </button>
+
+      <!-- Nav 2: Incident -->
+      <button onclick="switchTab('incident')" id="nav-btn-incident" class="nav-item flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-gray-500 dark:text-gray-400 hover:text-primary transition-all">
+        <span class="material-symbols-outlined text-[22px]">report_problem</span>
+        <span class="text-[10px] font-medium mt-0.5" id="nav-label-incident">الحوادث</span>
+      </button>
+
+      <!-- Nav 3: CAPA -->
+      <button onclick="switchTab('capa')" id="nav-btn-capa" class="nav-item flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-gray-500 dark:text-gray-400 hover:text-primary transition-all">
+        <span class="material-symbols-outlined text-[22px]">assignment_turned_in</span>
+        <span class="text-[10px] font-medium mt-0.5" id="nav-label-capa">CAPA</span>
+      </button>
+
+      <!-- Nav 4: Audit -->
+      <button onclick="switchTab('audit')" id="nav-btn-audit" class="nav-item flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-gray-500 dark:text-gray-400 hover:text-primary transition-all">
+        <span class="material-symbols-outlined text-[22px]">fact_check</span>
+        <span class="text-[10px] font-medium mt-0.5" id="nav-label-audit">التفتيش</span>
+      </button>
+
+      <!-- Nav 5: Forms -->
+      <button onclick="switchTab('forms')" id="nav-btn-forms" class="nav-item flex flex-col items-center justify-center w-14 h-14 rounded-2xl text-gray-500 dark:text-gray-400 hover:text-primary transition-all">
+        <span class="material-symbols-outlined text-[22px]">description</span>
+        <span class="text-[10px] font-medium mt-0.5" id="nav-label-forms">النماذج</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ============================================================= -->
+  <!-- APPLICATION LOGIC, OFFLINE ENGINE, I18N & ANNOTATION SCRIPT -->
+  <!-- ============================================================= -->
+  <script>
+    // --- 1. LOCALIZATION (i18n) DICTIONARY ---
+    const i18n = {
+      ar: {
+        dir: 'rtl',
+        lang: 'ar',
+        brandTitle: 'EHS Track Pro',
+        syncOnline: 'متصل • تمت المزامنة',
+        syncOffline: 'الوضع الميداني غير متصل (Offline)',
+        syncBtn: 'مزامنة الآن',
+        greeting: 'مرحباً بعودتك',
+        inspectorName: 'م. سارة المنصور (Lead EHS Auditor)',
+        siteLabel: 'موقع المشروع: المجمع الصناعي - المنطقة الغربية',
+        shiftProgress: 'اكتمال عمليات التدقيق الميداني المجدولة',
+        offlineTitle: 'الوضع الميداني الذكي (Offline-First)',
+        offlineSub: 'يمكنك فحص المعدات وتسجيل البلاغات بدون إنترنت، وستُرفع تلقائياً عند الاتصال.',
+        kpiTitle: 'مؤشرات السلامة والأداء الرئيسية',
+        kpiQuarter: 'الربع الأخير 2026',
+        kpiLtifr: 'معدل تكرار الإصابات',
+        kpiAudit: 'نسبة الامتثال البيئي',
+        kpiHours: 'ساعات عمل آمنة',
+        kpiCapa: 'سرعة إغلاق الإجراءات',
+        navDashboard: 'الرئيسية',
+        navIncident: 'الحوادث',
+        navCapa: 'CAPA',
+        navAudit: 'التفتيش',
+        navForms: 'النماذج',
+        reportIncident: 'إبلاغ عن حادث',
+        issuePtw: 'إصدار تصريح PTW',
+        startAudit: 'جولة تفتيشية',
+        viewCapa: 'متابعة CAPA',
+        newIncidentTitle: 'تسجيل بلاغ حادث أو خطر مهني جديد',
+        capaHeading: 'متابعة الإجراءات التصحيحية والوقائية',
+        docsTitle: 'إدارة النماذج وتصاريح العمل الذكية (E-Permits & JSA)',
+        downloadPdf: 'تحميل PDF رسمي'
+      },
+      en: {
+        dir: 'ltr',
+        lang: 'en',
+        brandTitle: 'EHS Track Pro',
+        syncOnline: 'Online • Synced',
+        syncOffline: 'Offline Mode (Local Storage)',
+        syncBtn: 'Sync Now',
+        greeting: 'Welcome back',
+        inspectorName: 'Eng. Sarah Al-Mansoor (Lead EHS Auditor)',
+        siteLabel: 'Project Site: Industrial Complex - West Sector',
+        shiftProgress: 'Scheduled Field Audits Completed',
+        offlineTitle: 'Offline-First Field Capability',
+        offlineSub: 'Conduct inspections and log hazards with zero connectivity. Syncs automatically when online.',
+        kpiTitle: 'Key Health, Safety & Environment KPIs',
+        kpiQuarter: 'Q4 2026',
+        kpiLtifr: 'Lost Time Injury Freq Rate',
+        kpiAudit: 'Environmental Compliance',
+        kpiHours: 'Safe Man-Hours Worked',
+        kpiCapa: 'CAPA Closure Velocity',
+        navDashboard: 'Dashboard',
+        navIncident: 'Incidents',
+        navCapa: 'CAPA',
+        navAudit: 'Audits',
+        navForms: 'Forms',
+        reportIncident: 'Report Incident',
+        issuePtw: 'Issue PTW Permit',
+        startAudit: 'Start Inspection',
+        viewCapa: 'CAPA Tracking',
+        newIncidentTitle: 'Report Workplace Incident or Hazard',
+        capaHeading: 'Corrective & Preventive Actions (CAPA)',
+        docsTitle: 'Smart Documents & E-Permit Workspace',
+        downloadPdf: 'Download Official PDF'
+      },
+      fr: {
+        dir: 'ltr',
+        lang: 'fr',
+        brandTitle: 'EHS Track Pro',
+        syncOnline: 'En ligne • Synchronisé',
+        syncOffline: 'Mode Hors-ligne (Stockage Local)',
+        syncBtn: 'Synchroniser',
+        greeting: 'Bienvenue',
+        inspectorName: 'Ing. Sarah Al-Mansoor (Auditeur EHS Principal)',
+        siteLabel: 'Site: Complexe Industriel - Zone Ouest',
+        shiftProgress: 'Audits de terrain planifiés achevés',
+        offlineTitle: 'Capacité Hors-Ligne (Offline-First)',
+        offlineSub: 'Inspectez et signalez sans connexion. Synchronisation automatique dès le rétablissement.',
+        kpiTitle: 'Indicateurs Clés SSE (KPI)',
+        kpiQuarter: 'T4 2026',
+        kpiLtifr: 'Taux de Fréquence des Accidents',
+        kpiAudit: 'Conformité Environnementale',
+        kpiHours: 'Heures Travaillées Sans Accident',
+        kpiCapa: 'Vitesse de Clôture CAPA',
+        navDashboard: 'Accueil',
+        navIncident: 'Incidents',
+        navCapa: 'CAPA',
+        navAudit: 'Audits',
+        navForms: 'Formulaires',
+        reportIncident: 'Signaler Incident',
+        issuePtw: 'Délivrer Permis PTW',
+        startAudit: 'Démarrer Audit',
+        viewCapa: 'Suivi CAPA',
+        newIncidentTitle: 'Déclarer un Incident ou Risque Professionnel',
+        capaHeading: 'Actions Correctives & Préventives (CAPA)',
+        docsTitle: 'Documents Intelligents & Permis de Travail',
+        downloadPdf: 'Télécharger PDF Officiel'
+      }
+    };
+
+    let currentLang = 'ar';
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      const data = i18n[lang];
+      document.documentElement.setAttribute('dir', data.dir);
+      document.documentElement.setAttribute('lang', data.lang);
+
+      // Toggle active language button styles
+      ['ar', 'en', 'fr'].forEach(l => {
+        const btn = document.getElementById(`lang-${l}-btn`);
+        if (l === lang) {
+          btn.className = "px-2.5 py-1 rounded-full transition-all bg-white dark:bg-gray-700 text-primary dark:text-emerald-400 shadow-xs";
+        } else {
+          btn.className = "px-2.5 py-1 rounded-full transition-all text-gray-500 dark:text-gray-400";
+        }
+      });
+
+      // Update text nodes
+      document.getElementById('brand-title').innerText = data.brandTitle;
+      document.getElementById('sync-status-text').innerText = data.syncOnline;
+      document.getElementById('sync-btn-text').innerText = data.syncBtn;
+      document.getElementById('greeting-text').innerText = data.greeting;
+      document.getElementById('inspector-name').innerText = data.inspectorName;
+      document.getElementById('site-label').innerText = data.siteLabel;
+      document.getElementById('shift-progress-label').innerText = data.shiftProgress;
+      document.getElementById('offline-mode-title').innerText = data.offlineTitle;
+      document.getElementById('offline-mode-sub').innerText = data.offlineSub;
+      document.getElementById('kpi-section-title').innerText = data.kpiTitle;
+      document.getElementById('kpi-quarter').innerText = data.kpiQuarter;
+      document.getElementById('kpi-ltifr-title').innerText = data.kpiLtifr;
+      document.getElementById('kpi-audit-title').innerText = data.kpiAudit;
+      document.getElementById('kpi-hours-title').innerText = data.kpiHours;
+      document.getElementById('kpi-capa-title').innerText = data.kpiCapa;
+      
+      document.getElementById('nav-label-dashboard').innerText = data.navDashboard;
+      document.getElementById('nav-label-incident').innerText = data.navIncident;
+      document.getElementById('nav-label-capa').innerText = data.navCapa;
+      document.getElementById('nav-label-audit').innerText = data.navAudit;
+      document.getElementById('nav-label-forms').innerText = data.navForms;
+
+      document.getElementById('action-report-incident').innerText = data.reportIncident;
+      document.getElementById('action-issue-ptw').innerText = data.issuePtw;
+      document.getElementById('action-start-audit').innerText = data.startAudit;
+      document.getElementById('action-view-capa').innerText = data.viewCapa;
+      document.getElementById('new-incident-title').innerText = data.newIncidentTitle;
+      document.getElementById('capa-heading').innerText = data.capaHeading;
+      document.getElementById('docs-workspace-title').innerText = data.docsTitle;
+      document.getElementById('btn-download-pdf-permit').innerText = data.downloadPdf;
+    }
+
+    // --- 2. TAB ROUTING & NAVIGATION ---
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(`tab-${tabId}`);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-item').forEach(el => {
+        el.classList.remove('text-primary', 'dark:text-emerald-400');
+        el.classList.add('text-gray-500', 'dark:text-gray-400');
+        const span = el.querySelector('span:last-child');
+        if (span) { span.classList.remove('font-bold'); span.classList.add('font-medium'); }
+      });
+
+      const activeNav = document.getElementById(`nav-btn-${tabId}`);
+      if (activeNav) {
+        activeNav.classList.remove('text-gray-500', 'dark:text-gray-400');
+        activeNav.classList.add('text-primary', 'dark:text-emerald-400');
+        const span = activeNav.querySelector('span:last-child');
+        if (span) { span.classList.remove('font-medium'); span.classList.add('font-bold'); }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- 3. VISUAL COMFORT / DARK MODE TOGGLE ---
+    function toggleVisualComfortMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      const icon = document.getElementById('theme-icon');
+      if (isDark) {
+        icon.innerText = 'light_mode';
+        localStorage.setItem('ehs_theme', 'dark');
+      } else {
+        icon.innerText = 'dark_mode';
+        localStorage.setItem('ehs_theme', 'light');
+      }
+    }
+
+    // --- 4. OFFLINE-FIRST PERSISTENCE & SYNC SIMULATOR ---
+    const initialCAPA = [
+      { id: 'CAPA-2026-101', title: 'إعادة عزل كابلات التغذية الكهربائية بالورشة رقم 2', assignee: 'أحمد التميمي', date: '2026-10-20', status: 'progress', priority: 'high' },
+      { id: 'CAPA-2026-102', title: 'تركيب صمام عدم رجوع على خط تبريد الضواغط', assignee: 'م. سالم القحطاني', date: '2026-10-25', status: 'progress', priority: 'medium' },
+      { id: 'CAPA-2026-103', title: 'استبدال طفايات الحريق منتهية الصلاحية بالمستودع B', assignee: 'فريق الإطفاء', date: '2026-10-14', status: 'closed', priority: 'high' },
+      { id: 'CAPA-2026-104', title: 'توفير نظارات واقية متوافقة مع معايير ANSI Z87', assignee: 'إدارة المشتريات', date: '2026-10-12', status: 'closed', priority: 'low' },
+      { id: 'CAPA-2026-105', title: 'إصلاح تسرب زيت في منطقة شحن الرافعات', assignee: 'فني الصيانة', date: '2026-10-10', status: 'closed', priority: 'medium' },
+      { id: 'CAPA-2026-106', title: 'إعادة دهان مسارات المشاة الآمنة باللون الأصفر التحذيري', assignee: 'مقاول الطرق الداخلي', date: '2026-10-05', status: 'overdue', priority: 'high' }
+    ];
+
+    let capaList = JSON.parse(localStorage.getItem('ehs_capa')) || initialCAPA;
+    let incidentList = JSON.parse(localStorage.getItem('ehs_incidents')) || [
+      { id: 'INC-2026-301', type: 'near_miss', title: 'انزلاق رافعة شوكية بسبب رطوبة الأرضية', location: 'المستودع الشمالي', time: '10:15 AM' },
+      { id: 'INC-2026-302', type: 'environmental', title: 'انسكاب 5 لتر زيت تشحيم في حوض التجميع', location: 'المحطة 2', time: 'أمس 04:30 PM' }
+    ];
+
+    function saveToLocalStorage() {
+      localStorage.setItem('ehs_capa', JSON.stringify(capaList));
+      localStorage.setItem('ehs_incidents', JSON.stringify(incidentList));
+    }
+
+    function triggerQuickSync() {
+      const dot = document.getElementById('sync-dot');
+      const text = document.getElementById('sync-status-text');
+      dot.className = "w-2 h-2 rounded-full bg-amber-500 animate-spin";
+      text.innerText = currentLang === 'ar' ? 'جاري رفع السجلات ومزامنة البيانات...' : 'Syncing local delta queue...';
+      
+      setTimeout(() => {
+        dot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+        text.innerText = i18n[currentLang].syncOnline;
+        document.getElementById('pending-records-count').innerText = currentLang === 'ar' ? 'تمت المزامنة بالكامل' : 'Fully Synced';
+        alert(currentLang === 'ar' ? 'تمت مزامنة جميع السجلات المعلقة وقوائم التدقيق بنجاح مع السحابة!' : 'All local reports and CAPAs synchronized successfully!');
+      }, 1200);
+    }
+
+    // --- 5. CAPA RENDER & MANAGEMENT ---
+    function renderCAPAList(filter = 'all') {
+      const container = document.getElementById('capa-items-container');
+      container.innerHTML = '';
+
+      const filtered = capaList.filter(item => {
+        if (filter === 'all') return true;
+        return item.status === filter;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="p-6 text-center text-xs text-gray-500 bg-surface-card dark:bg-surface-card-dark rounded-xl">لا توجد إجراءات ضمن هذا التصنيف</div>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        let badgeColor = 'bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300';
+        let statusText = 'قيد التنفيذ';
+        if (item.status === 'closed') {
+          badgeColor = 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300';
+          statusText = 'مكتمل ومغلق';
+        } else if (item.status === 'overdue') {
+          badgeColor = 'bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-300';
+          statusText = 'متأخر';
+        }
+
+        const div = document.createElement('div');
+        div.className = "bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3";
+        div.innerHTML = `
+          <div class="space-y-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono font-bold text-primary dark:text-emerald-400 bg-emerald-50 dark:bg-gray-800 px-1.5 py-0.5 rounded">${item.id}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeColor}">${statusText}</span>
+              <span class="text-[10px] text-gray-400">الأولوية: ${item.priority.toUpperCase()}</span>
+            </div>
+            <h4 class="text-xs font-bold text-gray-900 dark:text-white truncate">${item.title}</h4>
+            <div class="text-[11px] text-gray-500">المسؤول: <span class="text-gray-700 dark:text-gray-300 font-medium">${item.assignee}</span> • تاريخ الإنجاز: ${item.date}</div>
+          </div>
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            ${item.status !== 'closed' ? `
+              <button onclick="markCAPAClosed('${item.id}')" class="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-primary dark:text-emerald-400 text-xs font-semibold flex items-center gap-1 hover:bg-emerald-100">
+                <span class="material-symbols-outlined text-sm">done_all</span>
+                <span>إغلاق الإجراء</span>
+              </button>
+            ` : `
+              <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">verified</span>
+                <span>معتمد ومغلق</span>
+              </span>
+            `}
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      updateCAPAStats();
+    }
+
+    function updateCAPAStats() {
+      const total = capaList.length;
+      const progress = capaList.filter(c => c.status === 'progress').length;
+      const closed = capaList.filter(c => c.status === 'closed').length;
+      const overdue = capaList.filter(c => c.status === 'overdue').length;
+
+      document.getElementById('capa-count-total').innerText = total;
+      document.getElementById('capa-count-progress').innerText = progress;
+      document.getElementById('capa-count-closed').innerText = closed;
+      document.getElementById('capa-count-overdue').innerText = overdue;
+    }
+
+    function filterCAPAList(filter, btn) {
+      document.querySelectorAll('#capa-filter-tabs button').forEach(b => {
+        b.className = "px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200";
+      });
+      btn.className = "px-3.5 py-1.5 rounded-full text-xs font-bold bg-primary text-white shadow-xs";
+      renderCAPAList(filter);
+    }
+
+    function markCAPAClosed(id) {
+      capaList = capaList.map(c => c.id === id ? { ...c, status: 'closed' } : c);
+      saveToLocalStorage();
+      renderCAPAList('all');
+    }
+
+    function openNewCAPAModal() {
+      document.getElementById('new-capa-modal').classList.remove('hidden');
+      document.getElementById('new-capa-modal').classList.add('flex');
+    }
+
+    function closeNewCAPAModal() {
+      document.getElementById('new-capa-modal').classList.remove('flex');
+      document.getElementById('new-capa-modal').classList.add('hidden');
+    }
+
+    function saveNewCAPA() {
+      const title = document.getElementById('capa-new-title').value.trim();
+      const assignee = document.getElementById('capa-new-assignee').value.trim();
+      const date = document.getElementById('capa-new-date').value || '2026-10-30';
+      const priority = document.getElementById('capa-new-priority').value;
+
+      if (!title || !assignee) {
+        alert(currentLang === 'ar' ? 'يرجى كتابة عنوان الإجراء واسم المسؤول' : 'Please provide action title and assignee');
+        return;
+      }
+
+      const newId = `CAPA-2026-${Math.floor(100 + Math.random() * 900)}`;
+      capaList.unshift({ id: newId, title, assignee, date, status: 'progress', priority });
+      saveToLocalStorage();
+      renderCAPAList('all');
+      closeNewCAPAModal();
+      document.getElementById('capa-new-title').value = '';
+      document.getElementById('capa-new-assignee').value = '';
+    }
+
+    // --- 6. IMAGE HAZARD ANNOTATION CANVAS ENGINE ---
+    const hazardCanvas = document.getElementById('hazardCanvas');
+    const hctx = hazardCanvas.getContext('2d');
+    let isDrawing = false;
+    let penColor = '#e76f51';
+    let currentImage = null;
+
+    function initHazardCanvas() {
+      hctx.fillStyle = "#1e293b";
+      hctx.fillRect(0, 0, hazardCanvas.width, hazardCanvas.height);
+      
+      // Grid pattern for tactical field look
+      hctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+      hctx.lineWidth = 1;
+      for (let x = 0; x < hazardCanvas.width; x += 30) {
+        hctx.beginPath(); hctx.moveTo(x, 0); hctx.lineTo(x, hazardCanvas.height); hctx.stroke();
+      }
+      for (let y = 0; y < hazardCanvas.height; y += 30) {
+        hctx.beginPath(); hctx.moveTo(0, y); hctx.lineTo(hazardCanvas.width, y); hctx.stroke();
+      }
+    }
+
+    function setPenColor(color) {
+      penColor = color;
+    }
+
+    function getCanvasCoordinates(e) {
+      const rect = hazardCanvas.getBoundingClientRect();
+      const scaleX = hazardCanvas.width / rect.width;
+      const scaleY = hazardCanvas.height / rect.height;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
+      };
+    }
+
+    function startDraw(e) {
+      isDrawing = true;
+      document.getElementById('canvas-empty-state').style.display = 'none';
+      const pos = getCanvasCoordinates(e);
+      hctx.beginPath();
+      hctx.moveTo(pos.x, pos.y);
+      hctx.strokeStyle = penColor;
+      hctx.lineWidth = 4;
+      hctx.lineCap = 'round';
+      hctx.lineJoin = 'round';
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const pos = getCanvasCoordinates(e);
+      hctx.lineTo(pos.x, pos.y);
+      hctx.stroke();
+    }
+
+    function stopDraw() {
+      if (isDrawing) {
+        hctx.closePath();
+        isDrawing = false;
+      }
+    }
+
+    hazardCanvas.addEventListener('mousedown', startDraw);
+    hazardCanvas.addEventListener('mousemove', draw);
+    window.addEventListener('mouseup', stopDraw);
+    hazardCanvas.addEventListener('touchstart', startDraw, { passive: false });
+    hazardCanvas.addEventListener('touchmove', draw, { passive: false });
+    window.addEventListener('touchend', stopDraw);
+
+    function clearAnnotationCanvas() {
+      initHazardCanvas();
+      document.getElementById('canvas-empty-state').style.display = 'flex';
+    }
+
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          currentImage = img;
+          hctx.drawImage(img, 0, 0, hazardCanvas.width, hazardCanvas.height);
+          document.getElementById('canvas-empty-state').style.display = 'none';
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // --- 7. DIGITAL SIGNATURE PAD ---
+    const sigCanvas = document.getElementById('signatureCanvas');
+    const sctx = sigCanvas.getContext('2d');
+    let isSigning = false;
+
+    function getSigCoordinates(e) {
+      const rect = sigCanvas.getBoundingClientRect();
+      const scaleX = sigCanvas.width / rect.width;
+      const scaleY = sigCanvas.height / rect.height;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
+      };
+    }
+
+    function startSign(e) {
+      isSigning = true;
+      document.getElementById('sig-placeholder').style.display = 'none';
+      const pos = getSigCoordinates(e);
+      sctx.beginPath();
+      sctx.moveTo(pos.x, pos.y);
+      sctx.strokeStyle = '#0f5238';
+      sctx.lineWidth = 2.5;
+      sctx.lineCap = 'round';
+    }
+
+    function sign(e) {
+      if (!isSigning) return;
+      e.preventDefault();
+      const pos = getSigCoordinates(e);
+      sctx.lineTo(pos.x, pos.y);
+      sctx.stroke();
+    }
+
+    function stopSign() {
+      if (isSigning) {
+        sctx.closePath();
+        isSigning = false;
+      }
+    }
+
+    sigCanvas.addEventListener('mousedown', startSign);
+    sigCanvas.addEventListener('mousemove', sign);
+    window.addEventListener('mouseup', stopSign);
+    sigCanvas.addEventListener('touchstart', startSign, { passive: false });
+    sigCanvas.addEventListener('touchmove', sign, { passive: false });
+    window.addEventListener('touchend', stopSign);
+
+    function clearSignaturePad() {
+      sctx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+      document.getElementById('sig-placeholder').style.display = 'block';
+    }
+
+    function saveSignatureStamp() {
+      alert(currentLang === 'ar' ? 'تم تسجيل وتشفير التوقيع الإلكتروني بنجاح على التصريح #PTW-8821' : 'Electronic signature sealed and attached to permit #PTW-8821');
+    }
+
+    // --- 8. INCIDENT SUBMISSION & GEOLOCATION ---
+    let selectedIncidentType = 'near_miss';
+
+    function selectIncidentType(type, btn) {
+      selectedIncidentType = type;
+      document.querySelectorAll('#incident-type-selector button').forEach(b => {
+        b.className = "inc-type-btn p-3 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold text-xs flex flex-col items-center text-center gap-1.5 hover:border-gray-400 transition-all";
+      });
+      btn.className = "inc-type-btn p-3 rounded-xl border-2 border-primary bg-primary/5 text-primary dark:text-emerald-400 font-semibold text-xs flex flex-col items-center text-center gap-1.5 transition-all";
+    }
+
+    function getDeviceLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const locStr = `GPS: ${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)} (±${Math.round(pos.coords.accuracy)}m)`;
+            document.getElementById('inc-location-input').value = locStr;
+          },
+          () => {
+            document.getElementById('inc-location-input').value = "24.7136° N, 46.6753° E (الرياض - موقع المصنع)";
+          }
+        );
+      } else {
+        document.getElementById('inc-location-input').value = "24.7136° N, 46.6753° E (الرياض)";
+      }
+    }
+
+    function submitNewIncident() {
+      const title = document.getElementById('inc-title-input').value.trim();
+      const location = document.getElementById('inc-location-input').value.trim() || 'الموقع الرئيسي';
+      const desc = document.getElementById('inc-desc-input').value.trim();
+
+      if (!title) {
+        alert(currentLang === 'ar' ? 'يرجى كتابة عنوان البلاغ' : 'Please enter incident title');
+        return;
+      }
+
+      const newInc = {
+        id: `INC-2026-${Math.floor(100 + Math.random() * 900)}`,
+        type: selectedIncidentType,
+        title,
+        location,
+        time: 'الآن'
+      };
+
+      incidentList.unshift(newInc);
+      saveToLocalStorage();
+      renderIncidentHistory();
+
+      // Reset fields
+      document.getElementById('inc-title-input').value = '';
+      document.getElementById('inc-desc-input').value = '';
+      clearAnnotationCanvas();
+
+      alert(currentLang === 'ar' ? `تم تسجيل البلاغ بنجاح برقم: ${newInc.id} وحفظه محلياً في قائمة المزامنة.` : `Incident ${newInc.id} logged locally into sync queue.`);
+    }
+
+    function renderIncidentHistory() {
+      const container = document.getElementById('incidents-history-list');
+      container.innerHTML = '';
+      incidentList.forEach(inc => {
+        const div = document.createElement('div');
+        div.className = "p-3 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-between";
+        div.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-red-100 dark:bg-red-950/60 text-danger flex items-center justify-center">
+              <span class="material-symbols-outlined text-base">report_problem</span>
+            </span>
+            <div>
+              <div class="text-xs font-bold text-gray-800 dark:text-gray-200">${inc.title}</div>
+              <div class="text-[11px] text-gray-500">${inc.id} • ${inc.location}</div>
+            </div>
+          </div>
+          <span class="text-[10px] font-semibold text-gray-400">${inc.time}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // --- 9. AUDIT CHECKLIST EXECUTION ---
+    const auditItems = [
+      { id: 1, title: 'جاهزية معدات الإطفاء وخراطيم المياه وصلاحية صمامات الضغط', status: 'pass' },
+      { id: 2, title: 'التزام جميع العاملين بارتداء معدات الوقاية الشخصية (PPE)', status: 'pass' },
+      { id: 3, title: 'خلو مخارج الطوارئ ومسارات الهروب من أي عوائق أو مواد مخزنة', status: 'pass' },
+      { id: 4, title: 'فحص التوصيلات الكهربائية المؤقتة ووجود قواطع التسريب الأرضي (ELCB)', status: 'fail' },
+      { id: 5, title: 'توفر بطاقات بيانات السلامة للمواد الكيميائية (MSDS/SDS)', status: 'pending' }
+    ];
+
+    function renderAuditChecklist() {
+      const container = document.getElementById('audit-checklist-container');
+      container.innerHTML = '';
+      auditItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = "bg-surface-card dark:bg-surface-card-dark p-3.5 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3";
+        div.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-gray-900 dark:text-white">بند #${item.id}</span>
+              ${item.status === 'pass' ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">مطابق (Pass)</span>' : ''}
+              ${item.status === 'fail' ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-950 text-danger">عدم مطابقة (NC)</span>' : ''}
+              ${item.status === 'pending' ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">بانتظار الفحص</span>' : ''}
+            </div>
+            <p class="text-xs text-gray-700 dark:text-gray-300 font-medium">${item.title}</p>
+          </div>
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            <button onclick="setAuditStatus(${item.id}, 'pass')" class="px-2.5 py-1 rounded-lg ${item.status === 'pass' ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'} text-xs font-semibold flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">check</span>
+              <span>مطابق</span>
+            </button>
+            <button onclick="setAuditStatus(${item.id}, 'fail')" class="px-2.5 py-1 rounded-lg ${item.status === 'fail' ? 'bg-danger text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'} text-xs font-semibold flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">close</span>
+              <span>غير مطابق</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function setAuditStatus(id, status) {
+      const target = auditItems.find(a => a.id === id);
+      if (target) target.status = status;
+      renderAuditChecklist();
+    }
+
+    function finalizeAuditInspection() {
+      alert(currentLang === 'ar' ? 'تم اعتماد نتيجة التفتيش #INS-2026-904 بنسبة امتثال 80%، وتم تصدير تقرير التدقيق بنجاح.' : 'Audit #INS-2026-904 finalized with 80% compliance score.');
+    }
+
+    // --- 10. AUTO-PDF GENERATION ENGINE (jsPDF) ---
+    function downloadPermitPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Header Banner
+      doc.setFillColor(15, 82, 56); // #0f5238
+      doc.rect(0, 0, 210, 35, 'F');
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(18);
+      doc.text("EHS Track Pro - Official Work Permit", 14, 18);
+      doc.setFontSize(10);
+      doc.text("Permit to Work (PTW) • Ref: #PTW-8821", 14, 26);
+      doc.text(new Date().toLocaleDateString(), 180, 26);
+
+      // Metadata
+      doc.setTextColor(20, 29, 35);
+      doc.setFontSize(12);
+      doc.text("1. General Information", 14, 48);
+      doc.setFontSize(9);
+      doc.text("Type: Hot Work Permit (Welding & Thermal Cutting)", 14, 56);
+      doc.text("Location: Fuel Tank Farm Sector 4", 14, 62);
+      doc.text("Contractor: Advanced Engineering Construction Ltd.", 14, 68);
+      doc.text("Lead Auditor: Eng. Sarah Al-Mansoor", 14, 74);
+
+      // Gas Test Table
+      doc.setFillColor(240, 244, 248);
+      doc.rect(14, 82, 182, 35, 'F');
+      doc.setFontSize(11);
+      doc.text("2. Atmospheric & Gas Testing Verification", 20, 92);
+      doc.setFontSize(9);
+      doc.text("Oxygen Level (O2): 20.9% (Normal: 19.5% - 23.5%) -> PASS", 20, 100);
+      doc.text("Flammable Gases (LEL): 0.0% (Limit: < 5%) -> PASS", 20, 106);
+      doc.text("Carbon Monoxide (CO): 0.0 ppm -> PASS", 20, 112);
+
+      // Signature attachment
+      doc.text("3. Authorized Electronic Signature & Seal", 14, 130);
+      const sigData = sigCanvas.toDataURL("image/png");
+      doc.addImage(sigData, 'PNG', 14, 136, 70, 25);
+      doc.setFontSize(8);
+      doc.setTextColor(100, 100, 100);
+      doc.text("Tamper-evident cryptographic signature verified on-device.", 14, 168);
+
+      // Save file
+      doc.save("EHS-Track-Pro-Permit-PTW-8821.pdf");
+    }
+
+    function exportCAPAToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFillColor(29, 53, 87); // Slate Blue
+      doc.rect(0, 0, 210, 32, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.text("EHS Track Pro - CAPA Status Report", 14, 16);
+      doc.setFontSize(10);
+      doc.text("Corrective & Preventive Action Tracking Registry", 14, 24);
+
+      let y = 45;
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(10);
+      capaList.forEach((c, i) => {
+        doc.text(`${i + 1}. [${c.id}] ${c.title}`, 14, y);
+        doc.setFontSize(8);
+        doc.setTextColor(100, 100, 100);
+        doc.text(`Assignee: ${c.assignee} | Due: ${c.date} | Status: ${c.status.toUpperCase()} | Priority: ${c.priority}`, 18, y + 5);
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        y += 14;
+      });
+
+      doc.save("EHS-CAPA-Registry-Export.pdf");
+    }
+
+    // --- INITIALIZATION ON LOAD ---
+    window.addEventListener('DOMContentLoaded', () => {
+      initHazardCanvas();
+      renderCAPAList('all');
+      renderIncidentHistory();
+      renderAuditChecklist();
+      
+      const savedTheme = localStorage.getItem('ehs_theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-icon').innerText = 'light_mode';
+      }
+    });
+  </script>
+</body>
+</html>

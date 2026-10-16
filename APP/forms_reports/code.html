@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f6faff;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "tertiary": "#064c6c", "tertiary-fixed-dim": "#98cdf2", "surface": "#f6faff", "on-tertiary-container": "#b3dfff", "on-secondary-fixed-variant": "#30476a", "on-tertiary-fixed": "#001e2e", "on-secondary-fixed": "#001b3c", "on-primary-fixed-variant": "#0e5138", "outline": "#707973", "surface-container-low": "#ecf5fe", "primary-fixed-dim": "#95d4b3", "outline-variant": "#bfc9c1", "on-secondary": "#ffffff", "inverse-on-surface": "#e9f2fb", "surface-dim": "#d2dbe4", "surface-variant": "#dbe4ed", "tertiary-fixed": "#c7e7ff", "tertiary-container": "#2b6485", "on-tertiary": "#ffffff", "surface-container-lowest": "#ffffff", "inverse-surface": "#293138", "secondary-container": "#bbd3fd", "primary-container": "#2d6a4f", "on-primary": "#ffffff", "on-error-container": "#93000a", "secondary": "#485f84", "surface-bright": "#f6faff", "secondary-fixed": "#d5e3ff", "error": "#ba1a1a", "on-tertiary-fixed-variant": "#064c6b", "secondary-fixed-dim": "#b0c7f1", "inverse-primary": "#95d4b3", "on-primary-container": "#a8e7c5", "on-error": "#ffffff", "on-secondary-container": "#445a7f", "error-container": "#ffdad6", "on-surface": "#141d23", "surface-container-high": "#e0e9f2", "primary": "#0f5238", "surface-container-highest": "#dbe4ed", "background": "#f6faff", "surface-container": "#e6eff8", "primary-fixed": "#b1f0ce", "on-background": "#141d23", "on-surface-variant": "#404943", "on-primary-fixed": "#002114", "surface-tint": "#2c694e" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xs": "0.25rem", "space-lg": "1.25rem", "space-sm": "0.5rem", "space-xl": "2rem", "margin": "1.25rem", "gutter": "1rem", "gutter-mobile": "0.75rem", "margin-mobile": "1rem", "space-md": "0.875rem" }, fontFamily: { "headline-sm": ["Inter"], "headline-md": ["Inter"], "label-sm": ["Inter"], "label-lg": ["Inter"], "headline-lg-mobile": ["Inter"], "headline-lg": ["Inter"], "label-md": ["Inter"], "body-lg": ["Inter"], "body-md": ["Inter"], "body-sm": ["Inter"] }, fontSize: { "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }], "headline-md": ["22px", { lineHeight: "28px", fontWeight: "600" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.3px", fontWeight: "500" }], "label-lg": ["14px", { lineHeight: "18px", letterSpacing: "0.1px", fontWeight: "600" }], "headline-lg-mobile": ["26px", { lineHeight: "34px", fontWeight: "700" }], "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "700" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.2px", fontWeight: "600" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "body-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }] } } } }</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-sm min-w-0"><img alt="EHS Track Pro Logo" class="h-8 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1XoCrRsegQbHer_YnqPkRbhV_B8wBQrHIp3RqytBblcNqWIVRYtW2hmmjmcZyYKrJ6x_E8LhHeZ3OCfVHjRkEgcM1AbKK40UbUs1J6Y8QQjzfZmW18_L7edUQmsO3g0wbbbsBYj4-g50Zs7gHoRlL8mGwVRj77A7y3Cx9z2GHbzOpoC4aeeSO6It79K_4QcrQMJzieiAgT3GHqZ2YNPOpkHK67iFjAdr90tScD5K1NQEnYzD6CLUP6YBQ"/><div class="flex flex-col min-w-0 justify-center"><div class="flex items-center gap-space-xs"><span class="font-label-lg text-label-lg text-on-surface truncate">EHS Track Pro</span><span class="font-label-sm text-label-sm text-on-surface-variant truncate hidden sm:inline">إي إتش إس تراك برو</span></div><div class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span><span class="font-label-sm text-label-sm text-primary font-medium truncate">متصل - تمت المزامنة</span></div></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><button aria-label="Switch Language" class="min-h-[44px] px-space-sm py-space-xs rounded-full bg-surface-container-low text-secondary flex items-center justify-center font-label-md text-label-md hover:bg-surface-container transition-colors" type="button"><span class="font-semibold">EN</span><span class="mx-0.5 text-outline-variant">/</span><span class="font-semibold text-primary">عربي</span></button><div class="flex items-center justify-center min-w-[44px] min-h-[44px]"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsVRn2nlCdYqbGGDTY1v0RqWTdLECZcaOWlE03bhx6OtWParaNvnkT0YAbUrGokj1MNpluWrFWsnNBa8cYrf6fardY-p_dmJ_2hDZH7sjD-brloIMqfna_FWWNIiYcPFVo2n0j_wEPIMa1KOzpWeGdrAIntF8Bw2Oe8tH33tTk3r2XYG5JrmK8MjU_0VA2qYh_wwridsfsPy2Cr_BMgfWYMjIZly7dLMtTi05Fzwd0TPenJ1s1fVQ_"/></div></div></div></header><main class="flex-1 flex flex-col relative w-full px-margin-mobile pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full gap-space-md">
+<!-- Top Greeting & Contextual Summary -->
+<section class="flex flex-col gap-space-xs pt-1">
+<div class="flex items-center justify-between">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface">إدارة النماذج والمستندات الذكية</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Smart Documents & E-Permit Workspace</p>
+</div>
+<div class="flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-primary-fixed/40 text-on-primary-fixed">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">cloud_done</span>
+<span class="font-label-sm text-label-sm font-semibold">مزامنة فورية (مُفعل)</span>
+</div>
+</div>
+</section>
+<!-- Search and Rapid Access Bar -->
+<section class="flex flex-col gap-space-sm">
+<div class="relative w-full flex items-center">
+<div class="absolute right-3.5 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full h-12 pr-11 pl-12 rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-md text-body-md shadow-sm outline-none focus:bg-surface-container-low transition-colors" id="document-search-input" placeholder="البحث برقم التصريح، العنوان، أو الموقع..." type="text"/>
+<button aria-label="تصفية متقدمة" class="absolute left-2 w-9 h-9 rounded-lg bg-surface-container text-secondary flex items-center justify-center hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+<!-- Filter Chips Carousel (Horizontal Scroll) -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 -mx-margin-mobile px-margin-mobile no-scrollbar" id="filter-chips-container">
+<button class="filter-chip active flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-sm whitespace-nowrap transition-transform active:scale-95" data-filter="all" type="button">
+<span class="material-symbols-outlined text-[16px]">apps</span>
+<span>الكل (18)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-surface-container-lowest text-secondary font-label-md text-label-md shadow-sm whitespace-nowrap hover:bg-surface-container-low transition-all" data-filter="ptw" type="button">
+<span class="material-symbols-outlined text-[16px]">local_fire_department</span>
+<span>تصاريح العمل (PTW)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-surface-container-lowest text-secondary font-label-md text-label-md shadow-sm whitespace-nowrap hover:bg-surface-container-low transition-all" data-filter="jsa" type="button">
+<span class="material-symbols-outlined text-[16px]">shield_with_heart</span>
+<span>تقييم المخاطر (JSA)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-surface-container-lowest text-secondary font-label-md text-label-md shadow-sm whitespace-nowrap hover:bg-surface-container-low transition-all" data-filter="audit" type="button">
+<span class="material-symbols-outlined text-[16px]">fact_check</span>
+<span>قوائم التدقيق (Audit)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-surface-container-lowest text-secondary font-label-md text-label-md shadow-sm whitespace-nowrap hover:bg-surface-container-low transition-all" data-filter="tbt" type="button">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>محادثات السلامة (TBT)</span>
+</button>
+</div>
+</section>
+<!-- Interactive Document Workspace Cards Grid -->
+<section class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface">المستندات النشطة والمعتمدة</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">عرض المسودات (3)</span>
+</div>
+<!-- Document Card 1: Hot Work Permit -->
+<article class="doc-card flex flex-col bg-surface-container-lowest rounded-xl p-space-md shadow-sm gap-space-sm relative overflow-hidden" data-category="ptw">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-error-container/40 text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">local_fire_department</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-semibold text-primary">#PTW-8821</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">المنطقة الصناعية ب</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">تصريح عمل ساخن (لحام وقطع حراري)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Hot Work Permit • صهاريج الوقود رقم 4</p>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+          ساري المفعول
+        </span>
+</div>
+<div class="flex items-center justify-between pt-1 text-on-surface-variant font-label-sm text-label-sm bg-surface-container-low/50 p-2.5 rounded-lg">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">schedule</span>
+<span>ينتهي: اليوم 18:00</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">verified_user</span>
+<span>إذن المراقب: م. فهد القرني</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pt-0.5">
+<button class="flex-1 h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98] transition-transform" onclick="focusDocumentEditor('PTW-8821')" type="button">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span>تعديل المستند</span>
+</button>
+<button class="h-11 px-3.5 rounded-lg bg-surface-container text-secondary font-label-md text-label-md flex items-center justify-center gap-1 hover:bg-surface-container-high transition-colors" onclick="triggerPdfExport('#PTW-8821')" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">picture_as_pdf</span>
+<span>PDF</span>
+</button>
+<button aria-label="مشاركة سريعة" class="w-11 h-11 rounded-lg bg-surface-container-low text-on-surface flex items-center justify-center hover:bg-surface-container transition-colors" onclick="shareDocument('PTW-8821')" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+</div>
+</article>
+<!-- Document Card 2: Environmental JSA with Attached Photos -->
+<article class="doc-card flex flex-col bg-surface-container-lowest rounded-xl p-space-md shadow-sm gap-space-sm" data-category="jsa">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-primary-fixed/50 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">shield_with_heart</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-semibold text-secondary">#JSA-4109</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">خط التجميع 3</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">تقييم المخاطر البيئية والمهنية</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">JSA / Job Safety Analysis • التعامل مع المذيبات</p>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          قيد المراجعة
+        </span>
+</div>
+<!-- Photo Attachments and Visual Evidence Strip -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-primary">photo_camera</span>
+            شواهد وصور موثقة (3 مرفقات)
+          </span>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold cursor-pointer">+ إضافة لقطة</span>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div class="relative rounded-lg overflow-hidden h-16 group">
+<img class="w-full h-full object-cover" data-alt="Industrial assembly plant floor with safe solvent storage containers, chemical spill trays, clear safety warning labels in clean lighting and calm industrial backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL73cAQJ-GUkhiBaIQJTqhtvgRj91qXDXB7-Z6xg1usCT2dNRnRrDUsfSIeSJtztBhv0LHpM8cN4vPegp-9rDHTG0ETNk2s4zv4e5cJzy_gu62RdxdB8crYEGFIqS3pCRTJpCFBBxd31f1B1J_L5aK0sf-k6QUZnEdwGwLhjJseNsONnCfYD4NYm-FL6Ozn2O1HiAT6TIbKy2pAotjX86iYGo089SsI0eNrrxWXIB-T4XO_UX88Hb7"/>
+<div class="absolute inset-0 bg-inverse-surface/30 flex items-center justify-center text-on-primary font-label-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden h-16 group">
+<img class="w-full h-full object-cover" data-alt="Close up photo of an industrial emergency eye wash station and organic vapor respirator mask stored in a high safety compliance manufacturing plant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0dwvoVOb2xFeGhn4yF_sXSu4dYmGSaHg8_IG5RPMQPFsrTBWYEP1UFbscbhXk9Y9NgJ3dzPtSJFAOtAtuV_JCc5MibiI6nq7EpYeHO9j6AcM8qmprcNYJ0fdjlHcCEriQrqNUFkVZcK89os9hxs-V8wHAYHybAFy5Qa9grxKmcHIRSKFYue4M5yZDfMO5EgTXXGnC58kC9uyv9bzbQVW99nBJFXC7shWp8n57KcQ4k3aODPtEexKg"/>
+<div class="absolute inset-0 bg-inverse-surface/30 flex items-center justify-center text-on-primary font-label-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden h-16 group">
+<img class="w-full h-full object-cover" data-alt="EHS safety auditor holding digital clipboard inspecting air ventilation ducts and exhaust hoods inside modern engineering warehouse facility" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9EVEBZxA2zB8-eGC7mLRKOluugS2UN5qQfG2LzJTsvEAHLeo22vuH-wAAV9KrgzsQKGyTGYyA4Pb5oAJBqxNVdjpzt4uFYBCTtGksjUkSQqzlEslpt_xlflSUcAowzocxIezFwRdK6vaAWaIvgzdWiKYyDmkTg4LFQqVzDZs0sf8I4FVSp0hV130qwMvfdjYfyzzxsFF0Ac__1_UMBs_S7J4RM8BGDh7licEZvUcAtm662leaEnXT"/>
+<div class="absolute inset-0 bg-inverse-surface/30 flex items-center justify-center text-on-primary font-label-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pt-1">
+<button class="flex-1 h-11 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 hover:bg-surface-container-high transition-colors" onclick="focusDocumentEditor('JSA-4109')" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">checklist</span>
+<span>فحص الملاحظات والضوابط</span>
+</button>
+<button class="h-11 px-3.5 rounded-lg bg-surface-container-low text-secondary font-label-md text-label-md flex items-center justify-center gap-1" onclick="triggerPdfExport('#JSA-4109')" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">download</span>
+<span>تنزيل</span>
+</button>
+</div>
+</article>
+<!-- Document Card 3: Daily Safety Checklist (85% Progress) -->
+<article class="doc-card flex flex-col bg-surface-container-lowest rounded-xl p-space-md shadow-sm gap-space-sm" data-category="audit">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-secondary-container/50 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">fact_check</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-semibold text-primary">#CHK-1092</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">الوردية الصباحية</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">قائمة تدقيق التفتيش الميداني اليومي</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Daily Site Safety Checklist • قطاع الخدمات اللوجستية</p>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold shrink-0">
+          متبقي بندين
+        </span>
+</div>
+<!-- Completion Indicator Bar -->
+<div class="flex flex-col gap-1.5 bg-surface-container-low/40 p-3 rounded-lg">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface font-medium">معدل الإنجاز الميداني</span>
+<span class="text-primary font-bold">85% (17 من 20 بند)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-500" style="width: 85%;"></div>
+</div>
+<div class="flex items-center gap-1.5 mt-1 text-on-error-container bg-error-container/40 px-2 py-1 rounded text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-[15px] text-error">draw</span>
+<span>يتطلب التوقيع الإلكتروني لمشرف السلامة لإغلاق القائمة</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="flex-1 h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98] transition-transform" onclick="focusDocumentEditor('CHK-1092')" type="button">
+<span class="material-symbols-outlined text-[18px]">gesture</span>
+<span>استكمال والتوقيع الآن</span>
+</button>
+</div>
+</article>
+<!-- Document Card 4: Weekly Toolbox Talk with Digital Signatures -->
+<article class="doc-card flex flex-col bg-surface-container-lowest rounded-xl p-space-md shadow-sm gap-space-sm" data-category="tbt">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-tertiary-fixed text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">groups</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-semibold text-tertiary">#TBT-303</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">مستودع أ</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">سجل محادثة السلامة الأسبوعية</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Weekly Toolbox Talk • مخاطر الإجهاد الحراري والرفع الآمن</p>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold shrink-0">
+          14 حاضر
+        </span>
+</div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant bg-surface-container-low p-2.5 rounded-lg">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">fingerprint</span>
+<span>التواقيع الرقمية: 14/14 موظف</span>
+</div>
+<div class="flex items-center -space-x-1 space-x-reverse">
+<span class="w-6 h-6 rounded-full bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-on-primary-fixed">ع.م</span>
+<span class="w-6 h-6 rounded-full bg-secondary-fixed flex items-center justify-center text-[10px] font-bold text-on-secondary-fixed">س.ح</span>
+<span class="w-6 h-6 rounded-full bg-tertiary-fixed flex items-center justify-center text-[10px] font-bold text-on-tertiary-fixed">+12</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="flex-1 h-11 rounded-lg bg-surface-container text-secondary font-label-md text-label-md flex items-center justify-center gap-1.5 hover:bg-surface-container-high transition-colors" onclick="openSignatureScannerModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+<span>مسح حضور رقمي إضافي</span>
+</button>
+<button class="h-11 px-3.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-1.5" onclick="triggerPdfExport('#TBT-303')" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+<span>تصدير فوري</span>
+</button>
+</div>
+</article>
+</section>
+<!-- Interactive In-App Document Editor Live Panel -->
+<section class="flex flex-col bg-surface-container-lowest rounded-xl p-space-md shadow-md gap-space-md scroll-mt-20" id="interactive-editor-preview">
+<div class="flex items-center justify-between pb-2 border-b-0">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">edit_document</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">محرر النماذج الذكي الفوري</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Live In-App Form & Risk Configurator</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed font-semibold">حفظ تلقائي</span>
+</div>
+<!-- Active Form Metadata Inputs -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface font-medium" for="form-title">عنوان التقرير أو التصريح</label>
+<input class="h-12 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md outline-none focus:bg-surface-container" id="form-title" type="text" value="تفتيش السلامة العامة والوقاية من الحرائق"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface font-medium" for="form-location">موقع العمل المحدد</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 pr-3 pl-10 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md outline-none focus:bg-surface-container" id="form-location" type="text" value="المستودع الرئيسي - البوابة الجنوبية"/>
+<span class="material-symbols-outlined absolute left-3 text-[18px] text-outline">pin_drop</span>
+</div>
+</div>
+</div>
+<!-- Dynamic Risk Assessment Matrix Selector (Touch 5x5 Optimized Segment) -->
+<div class="flex flex-col gap-space-xs bg-surface-container-low/40 p-3 rounded-xl">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-tertiary">grid_view</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">محدد مصفوفة المخاطر الديناميكي (5×5 Matrix)</span>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-bold" id="risk-score-badge">متوسط (3 × 3 = 9)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">حدد مستوى الاحتمالية مقابل شدة التأثير لتحديث ضوابط الحماية فورياً:</p>
+<div class="grid grid-cols-3 gap-2 pt-1" id="risk-matrix-buttons">
+<button class="risk-btn flex flex-col items-center justify-center p-2.5 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-primary-fixed/30 transition-all" onclick="selectRiskLevel('low', 'منخفض (1 × 2 = 2)', this)" type="button">
+<span class="w-3 h-3 rounded-full bg-primary mb-1"></span>
+<span class="font-label-md text-label-md font-semibold text-primary">منخفض (Low)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">1 × 2 (درجة 2)</span>
+</button>
+<button class="risk-btn flex flex-col items-center justify-center p-2.5 rounded-lg bg-secondary-container/40 text-on-secondary-container ring-2 ring-secondary transition-all" onclick="selectRiskLevel('med', 'متوسط (3 × 3 = 9)', this)" type="button">
+<span class="w-3 h-3 rounded-full bg-secondary mb-1"></span>
+<span class="font-label-md text-label-md font-semibold text-secondary">متوسط (Medium)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">3 × 3 (درجة 9)</span>
+</button>
+<button class="risk-btn flex flex-col items-center justify-center p-2.5 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-error-container/40 transition-all" onclick="selectRiskLevel('high', 'عالي حرج (4 × 4 = 16)', this)" type="button">
+<span class="w-3 h-3 rounded-full bg-error mb-1"></span>
+<span class="font-label-md text-label-md font-semibold text-error">عالي (High)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4 × 4 (درجة 16)</span>
+</button>
+</div>
+</div>
+<!-- Multimedia Upload Slot with Camera and Annotation Triggers -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold">إرفاق صور موثقة مع علامات توضيحية</span>
+<span class="font-label-sm text-label-sm text-outline">الحد الأقصى: 5 صور</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="flex flex-col items-center justify-center gap-1.5 h-28 rounded-xl bg-surface-container-low text-primary hover:bg-surface-container transition-all active:scale-[0.98]" onclick="triggerCameraCapture()" type="button">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">photo_camera</span>
+</div>
+<span class="font-label-md text-label-md font-semibold">التقاط بكاميرا الحقل</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">إضافة وسم زمني ومكاني</span>
+</button>
+<div class="relative flex flex-col items-center justify-center gap-1.5 h-28 rounded-xl bg-surface-container-lowest overflow-hidden group shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Worker in safety reflective vest holding pressure gauge measuring safety valves on industrial pipeline with red markup annotation circle drawn over the dial" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9wUUekTIplrR0ILBiKi21z330wK9AtOjJtZDPziZMuCCpYD5elsFkkH_Hsy8I1V5BXfuv77X3mhVbJvRF_Swf3-DvJS8gKhD7tfU9bbGKpKMVORqEl6PIAYNUT-qOvszpIqXz1ZyEDO6c7ukOubOvNULM82juPbz0iF31FLO9SZE8TvapTRs7POnLNV0BBQ7Iy72EH-CePMrICQ5YMFMbkP_TntfarXR8M39HG5q46nls-lxoFOs8"/>
+<div class="absolute inset-0 bg-inverse-surface/40 flex items-center justify-center gap-2">
+<button aria-label="رسم توضيحي" class="w-8 h-8 rounded-full bg-surface-container-lowest text-on-surface flex items-center justify-center shadow" type="button">
+<span class="material-symbols-outlined text-[16px]">draw</span>
+</button>
+<button aria-label="حذف الصورة" class="w-8 h-8 rounded-full bg-error-container text-error flex items-center justify-center shadow" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+<span class="absolute bottom-1 right-2 px-1.5 py-0.5 rounded bg-inverse-surface/80 text-inverse-on-surface font-label-sm text-[10px]">مرفق 1 مُعلّم</span>
+</div>
+</div>
+</div>
+<!-- Digital Signature Pad Area -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">draw</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">التوقيع الرقمي للمسؤول المعتمد</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">م. خليل إبراهيم (مدير السلامة)</span>
+</div>
+<div class="relative w-full h-32 rounded-xl bg-surface-container-low overflow-hidden flex flex-col justify-between p-3" id="signature-canvas-container">
+<!-- Digital Signature Canvas Simulation -->
+<svg class="w-full h-20 opacity-80 text-primary pointer-events-none" fill="none" stroke="currentColor" viewbox="0 0 320 80">
+<path d="M 20,45 Q 60,10 90,40 T 150,30 Q 180,60 210,25 T 260,50 Q 280,30 300,45" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+<path d="M 120,55 L 200,55" opacity="0.4" stroke="#404943" stroke-dasharray="4 4" stroke-width="1.5"></path>
+</svg>
+<div class="flex items-center justify-between z-10">
+<div class="flex items-center gap-1 text-label-sm font-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-primary">verified</span>
+<span>بصمة أمان مشفرة SHA-256</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" onclick="clearSignaturePad()" type="button">
+              مسح
+            </button>
+<button class="px-3 py-1 rounded-md bg-primary text-on-primary font-label-sm text-label-sm font-semibold shadow-sm" onclick="saveSignaturePad()" type="button">
+              اعتماد التوقيع
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Export to PDF & Instant Multi-Channel Sharing -->
+<div class="flex flex-col gap-space-xs pt-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold">تصدير فوري PDF وإرسال معتمد</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">جاهز للمصادقة</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<button class="h-12 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 shadow-sm hover:bg-primary-container active:scale-[0.98] transition-all" onclick="triggerPdfExport('التقرير المعتمد')" type="button">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+<span>توليد وتصدير PDF رسمي</span>
+</button>
+<div class="flex items-center gap-space-xs">
+<button class="flex-1 h-12 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 hover:bg-surface-container-high transition-colors" onclick="shareViaChannel('WhatsApp')" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">chat</span>
+<span>واتساب</span>
+</button>
+<button class="flex-1 h-12 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 hover:bg-surface-container-high transition-colors" onclick="shareViaChannel('Email')" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">mail</span>
+<span>البريد الميداني</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Offline Compliance & Audit Toast Banner (Delight Micro-element) -->
+<aside class="flex items-center justify-between p-space-sm rounded-xl bg-secondary text-on-secondary shadow-sm">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-on-secondary/15 flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold">متوافق مع معايير ISO 45001 & OSHA</span>
+<span class="font-label-sm text-[10px] opacity-80">جميع المستندات مشفرة وتدعم العمل دون إنترنت</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] opacity-70">shield</span>
+</aside>
+<!-- Interactive Feedback Toast Container (Handled by Inline JS) -->
+<div class="fixed bottom-20 left-4 right-4 max-w-sm mx-auto p-3 rounded-xl bg-inverse-surface text-inverse-on-surface shadow-xl flex items-center justify-between transition-all duration-300 opacity-0 pointer-events-none translate-y-3 z-50" id="toast-notification">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary-fixed" id="toast-icon">check_circle</span>
+<span class="font-body-sm text-body-sm" id="toast-text">تم تنفيذ الإجراء بنجاح</span>
+</div>
+<button class="text-inverse-on-surface/70 hover:text-inverse-on-surface" onclick="hideToast()" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+<script>
+  // Filter chips interaction logic
+  const filterButtons = document.querySelectorAll('.filter-chip');
+  const docCards = document.querySelectorAll('.doc-card');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      filterButtons.forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-on-primary');
+        btn.classList.add('bg-surface-container-lowest', 'text-secondary');
+      });
+      button.classList.remove('bg-surface-container-lowest', 'text-secondary');
+      button.classList.add('bg-primary', 'text-on-primary');
+
+      const filterValue = button.getAttribute('data-filter');
+      docCards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        if (filterValue === 'all' || cardCategory === filterValue) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Search input real-time filtering
+  const searchInput = document.getElementById('document-search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      docCards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  }
+
+  // Risk Matrix Dynamic Level Selection
+  function selectRiskLevel(level, label, targetBtn) {
+    const badge = document.getElementById('risk-score-badge');
+    const buttons = document.querySelectorAll('.risk-btn');
+
+    buttons.forEach(btn => {
+      btn.classList.remove('ring-2', 'ring-primary', 'ring-secondary', 'ring-error', 'bg-secondary-container/40');
+      btn.classList.add('bg-surface-container-lowest');
+    });
+
+    targetBtn.classList.remove('bg-surface-container-lowest');
+    if (level === 'low') {
+      targetBtn.classList.add('ring-2', 'ring-primary', 'bg-primary-fixed/30');
+      badge.className = 'font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-bold';
+    } else if (level === 'med') {
+      targetBtn.classList.add('ring-2', 'ring-secondary', 'bg-secondary-container/40');
+      badge.className = 'font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-bold';
+    } else {
+      targetBtn.classList.add('ring-2', 'ring-error', 'bg-error-container/40');
+      badge.className = 'font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-bold';
+    }
+
+    badge.textContent = label;
+    showToast(`تم تحديث مصفوفة المخاطر: ${label}`);
+  }
+
+  // Smooth scroll and focus to editor
+  function focusDocumentEditor(docId) {
+    const editor = document.getElementById('interactive-editor-preview');
+    const titleInput = document.getElementById('form-title');
+    if (editor) {
+      editor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (titleInput) {
+        titleInput.value = `تعديل المستند (${docId})`;
+        titleInput.focus();
+      }
+      showToast(`تم فتح المستند ${docId} في المحرر الذكي`);
+    }
+  }
+
+  // Document Actions & Delight feedback
+  function triggerPdfExport(docName) {
+    showToast(`جاري توليد ملف PDF عالي الدقة لـ ${docName}...`, 'picture_as_pdf');
+  }
+
+  function shareDocument(docId) {
+    showToast(`تم نسخ رابط مشاركة المستند المعتمد ${docId}`);
+  }
+
+  function shareViaChannel(channel) {
+    showToast(`تم تجهيز الرابط المباشر للإرسال عبر ${channel}`);
+  }
+
+  function triggerCameraCapture() {
+    showToast('تم تشغيل الكاميرا الميدانية لإرفاق لقطة فحص جديدة', 'photo_camera');
+  }
+
+  function clearSignaturePad() {
+    showToast('تم مسح لوحة التوقيع، بانتظار توقيع جديد', 'refresh');
+  }
+
+  function saveSignaturePad() {
+    showToast('تم اعتماد التوقيع الرقمي بنجاح وإرفاق البصمة', 'verified');
+  }
+
+  function openSignatureScannerModal() {
+    showToast('تم تفعيل ماسح الباركود/QR لتسجيل تواقيع الحاضرين', 'qr_code_scanner');
+  }
+
+  // Toast System
+  let toastTimer;
+  function showToast(message, iconName = 'check_circle') {
+    const toast = document.getElementById('toast-notification');
+    const toastText = document.getElementById('toast-text');
+    const toastIcon = document.getElementById('toast-icon');
+
+    if (!toast) return;
+
+    toastText.textContent = message;
+    toastIcon.textContent = iconName;
+
+    toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      hideToast();
+    }, 3200);
+  }
+
+  function hideToast() {
+    const toast = document.getElementById('toast-notification');
+    if (toast) {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
+    }
+  }
+</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(20,29,35,0.06)]" data-active-classes="text-primary font-semibold [&>div]:bg-primary-fixed/40"><div class="flex justify-between items-center h-16 px-space-xs max-w-lg mx-auto"><a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant transition-colors group" data-path="dashboard" href="#"><div class="w-10 h-7 rounded-full flex items-center justify-center transition-colors group-hover:bg-surface-container-low"><span class="material-symbols-outlined text-[20px]">space_dashboard</span></div><span class="font-label-sm text-label-sm mt-0.5 truncate max-w-[64px] text-center">لوحة التحكم</span></a><a aria-current="page" class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 transition-colors group text-primary font-semibold [&>div]:bg-primary-fixed/40" data-path="forms-and-documents" href="#"><div class="w-10 h-7 rounded-full flex items-center justify-center transition-colors group-hover:bg-surface-container-low"><span class="material-symbols-outlined text-[20px]">assignment</span></div><span class="font-label-sm text-label-sm mt-0.5 truncate max-w-[64px] text-center">النماذج</span></a><a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 -mt-3 text-on-surface-variant group" data-path="report-incident" href="#"><div class="w-12 h-12 rounded-full bg-primary text-on-primary shadow-md flex items-center justify-center group-hover:bg-primary-container transition-transform active:scale-95"><span class="material-symbols-outlined text-[24px]">warning</span></div><span class="font-label-sm text-label-sm mt-1 truncate max-w-[68px] text-center text-primary font-medium">إبلاغ حادث</span></a><a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant transition-colors group" data-path="capa-actions" href="#"><div class="w-10 h-7 rounded-full flex items-center justify-center transition-colors group-hover:bg-surface-container-low"><span class="material-symbols-outlined text-[20px]">fact_check</span></div><span class="font-label-sm text-label-sm mt-0.5 truncate max-w-[64px] text-center">خطة الإجراءات</span></a><a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant transition-colors group" data-path="settings-and-sync" href="#"><div class="w-10 h-7 rounded-full flex items-center justify-center transition-colors group-hover:bg-surface-container-low"><span class="material-symbols-outlined text-[20px]">sync_saved_locally</span></div><span class="font-label-sm text-label-sm mt-0.5 truncate max-w-[64px] text-center">الإعدادات</span></a></div></nav></body></html>

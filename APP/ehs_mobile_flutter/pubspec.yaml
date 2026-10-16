@@ -1,0 +1,37 @@
+name: ehs_track_pro
+description: "A comprehensive multi-language Environment, Health, and Safety (EHS) mobile application."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.19.0
+  google_fonts: ^6.1.0
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  provider: ^6.1.1
+  pdf: ^3.10.7
+  printing: ^5.11.1
+  signature: ^5.4.1
+  image_picker: ^1.0.7
+  http: ^1.2.0
+  shared_preferences: ^2.2.2
+  uuid: ^4.3.3
+  flutter_svg: ^2.0.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/

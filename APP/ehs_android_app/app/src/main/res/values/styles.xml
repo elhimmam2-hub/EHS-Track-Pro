@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Application Theme -->
+    <style name="Theme.EHSTrackPro" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_eco_green</color>
+        <item name="colorPrimaryDark">@color/primary_eco_green</item>
+        <item name="colorAccent">@color/primary_light</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/background_light</item>
+    </style>
+</resources>
